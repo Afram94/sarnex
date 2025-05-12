@@ -3,7 +3,7 @@
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import MainLayout from '../app/components/MainLayout';
+import MainLayout from '../components/MainLayout';
 
 const messages = [
   "More than a website — a complete digital foundation",
