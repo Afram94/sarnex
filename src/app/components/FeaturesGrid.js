@@ -82,7 +82,7 @@ export default function FeaturesList() {
         transition={{ type: 'spring', stiffness: 60, damping: 20 }}
       />
 
-      {/* Animated dashed lines between cards */}
+      {/* SVG connector lines */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         {['a', 'b', 'c'].map((from, i) => {
           const to = ['b', 'c', 'd'][i]
@@ -115,9 +115,9 @@ export default function FeaturesList() {
         </p>
       </div>
 
-      {/* Feature cards with text placeholders */}
+      {/* Feature cards */}
       <div className="relative z-20 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
-        {features.map(({ id, title, subtitle, description }) => (
+        {features.map(({ id, title, subtitle, description }, index) => (
           <Tilt
             key={id}
             tiltMaxAngleX={10}
@@ -129,22 +129,20 @@ export default function FeaturesList() {
           >
             <motion.div
               data-id={id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
               className="group relative backdrop-blur-xl border border-white/10 bg-white/5 rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:border-teal-400/20"
             >
-              {/* Glow on hover */}
+              {/* Hover glow ring */}
               <div className="absolute -inset-[2px] bg-gradient-to-tr from-teal-500 via-transparent to-indigo-500 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl pointer-events-none" />
 
-              {/* Text-based "image" placeholder */}
+              {/* Text-based image placeholder */}
               <div className="w-full aspect-[3/2] bg-black rounded-t-3xl flex items-center justify-center text-white text-lg font-mono tracking-wide opacity-80">
                 {title}
               </div>
 
-              {/* Card content */}
               <div className="p-6">
                 <h4 className="text-xs uppercase tracking-widest text-white/70 mb-1">
                   {subtitle}
@@ -157,7 +155,7 @@ export default function FeaturesList() {
         ))}
       </div>
 
-      {/* Email capture CTA */}
+      {/* CTA */}
       <div className="text-center mt-24 max-w-xl mx-auto">
         <p className="text-white/80 mb-4">Want early access?</p>
         <form className="flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -47,17 +47,21 @@ export default function WhyChooseUs() {
           {features.map(({ icon: Icon, title, description }, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               className="bg-zinc-900 border border-[#51625833] rounded-xl p-6 text-center hover:border-[#516258] transition-all duration-300"
             >
               <div className="flex items-center justify-center mb-4">
                 <Icon className="w-7 h-7 text-[#516258]" />
               </div>
-              <h3 className="text-lg font-semibold font-mono text-[#d4c7b0] mb-2">{title}</h3>
-              <p className="text-sm text-[#c0c0c0] opacity-80 leading-relaxed">{description}</p>
+              <h3 className="text-lg font-semibold font-mono text-[#d4c7b0] mb-2">
+                {title}
+              </h3>
+              <p className="text-sm text-[#c0c0c0] opacity-80 leading-relaxed">
+                {description}
+              </p>
             </motion.div>
           ))}
         </div>

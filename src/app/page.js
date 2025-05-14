@@ -204,13 +204,7 @@ export default function HomePage() {
 
             {/* Feature Highlights */}
             <div className="mt-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ staggerChildren: 0.3 }}
-                className="grid grid-cols-1 sm:grid-cols-3 gap-6"
-              >
+              <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {[
                   {
                     title: 'Custom CMS',
@@ -227,26 +221,28 @@ export default function HomePage() {
                     icon: '🚀',
                     desc: 'Scalable infrastructure optimized for speed and security.',
                   },
-                ].map((item) => (
+                ].map((item, index) => (
                   <motion.div
                     key={item.title}
-                    variants={{
-                      hidden: { opacity: 0 },
-                      visible: { opacity: 1 },
-                    }}
-                    transition={{ duration: 1.2, ease: 'easeInOut' }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.2 }}
                     className="relative group bg-black/30 border border-green-500/20 rounded-2xl px-6 py-8 text-center shadow-lg backdrop-blur-md hover:shadow-green-500/30 transition-all duration-300"
                   >
                     <div className="flex justify-center mb-4">
                       <div className="text-4xl sm:text-5xl drop-shadow-glow text-green-400">{item.icon}</div>
                     </div>
-                    <h3 className="text-xl font-semibold text-green-300 tracking-wide mb-2">{item.title}</h3>
+                    <h3 className="text-xl font-semibold text-green-300 tracking-wide mb-2">
+                      {item.title}
+                    </h3>
                     <p className="text-sm text-green-100 opacity-80 leading-relaxed">{item.desc}</p>
                     <div className="absolute -inset-px border border-green-400/10 rounded-2xl blur-sm group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
                   </motion.div>
                 ))}
               </motion.div>
             </div>
+
           </motion.div>
         </section>
 
