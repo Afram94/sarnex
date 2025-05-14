@@ -75,12 +75,14 @@ export default function FeaturesList() {
       className="relative bg-[#0f1111] py-32 px-6 overflow-hidden"
       ref={containerRef}
     >
+      {/* Cursor glow */}
       <motion.div
         className="pointer-events-none fixed top-0 left-0 w-32 h-32 bg-teal-400/10 rounded-full blur-2xl z-20"
         animate={{ x: cursor.x - 64, y: cursor.y - 64 }}
         transition={{ type: 'spring', stiffness: 60, damping: 20 }}
       />
 
+      {/* Animated dashed lines between cards */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         {['a', 'b', 'c'].map((from, i) => {
           const to = ['b', 'c', 'd'][i]
@@ -100,6 +102,7 @@ export default function FeaturesList() {
         })}
       </svg>
 
+      {/* Section heading */}
       <div className="text-center max-w-2xl mx-auto mb-20 relative z-20">
         <span className="inline-block text-sm bg-white/10 text-white/60 px-3 py-1 rounded-full mb-4">
           Coming Soon
@@ -108,11 +111,11 @@ export default function FeaturesList() {
           Upcoming Features
         </h2>
         <p className="text-white/60 mt-4 text-base md:text-lg">
-          These powerful tools are in the works. Here’s a sneak peek at what we’re
-          building.
+          These powerful tools are in the works. Here’s a sneak peek at what we’re building.
         </p>
       </div>
 
+      {/* Feature cards with text placeholders */}
       <div className="relative z-20 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
         {features.map(({ id, title, subtitle, description }) => (
           <Tilt
@@ -133,18 +136,15 @@ export default function FeaturesList() {
               whileHover={{ scale: 1.02 }}
               className="group relative backdrop-blur-xl border border-white/10 bg-white/5 rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:border-teal-400/20"
             >
+              {/* Glow on hover */}
               <div className="absolute -inset-[2px] bg-gradient-to-tr from-teal-500 via-transparent to-indigo-500 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl pointer-events-none" />
 
-              <div className="w-full aspect-[3/2] bg-black rounded-t-3xl overflow-hidden flex items-center justify-center">
-                <img
-                  src={`https://via.placeholder.com/600x400.png?text=${encodeURIComponent(
-                    title
-                  )}`}
-                  alt={title}
-                  className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
-                />
+              {/* Text-based "image" placeholder */}
+              <div className="w-full aspect-[3/2] bg-black rounded-t-3xl flex items-center justify-center text-white text-lg font-mono tracking-wide opacity-80">
+                {title}
               </div>
 
+              {/* Card content */}
               <div className="p-6">
                 <h4 className="text-xs uppercase tracking-widest text-white/70 mb-1">
                   {subtitle}
@@ -157,6 +157,7 @@ export default function FeaturesList() {
         ))}
       </div>
 
+      {/* Email capture CTA */}
       <div className="text-center mt-24 max-w-xl mx-auto">
         <p className="text-white/80 mb-4">Want early access?</p>
         <form className="flex flex-col sm:flex-row items-center justify-center gap-3">
