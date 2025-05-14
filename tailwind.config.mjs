@@ -7,6 +7,11 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+    brand: {
+      green: '#9cc0ab',
+    },
+  },
       animation: {
         dash: 'dash 1.5s linear infinite',
       },

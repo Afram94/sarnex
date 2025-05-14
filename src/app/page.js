@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import MainLayout from '../app/components/MainLayout';
 import WhyChooseUs from './components/WhyChooseUs';
 import FeaturesGrid from './components/FeaturesGrid';
+import HowItWorks from './components/HowItWorks';
+import CallToActionRoadmap from './components/CallToActionRoadmap';
+import AnimatedProcessScroll from './components/AnimatedProcessScroll';
 
 const messages = [
   "Websites that rank. And convert.",
@@ -226,22 +229,25 @@ export default function HomePage() {
                     key={item.title}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.6, delay: index * 0.2 }}
-                    className="relative group bg-black/30 border border-green-500/20 rounded-2xl px-6 py-8 text-center shadow-lg backdrop-blur-md hover:shadow-green-500/30 transition-all duration-300"
+                    className="will-change-opacity relative group bg-black/30 border border-green-500/20 rounded-2xl px-6 py-8 text-center shadow-lg backdrop-blur-md hover:shadow-green-500/30 transition-all duration-300"
                   >
                     <div className="flex justify-center mb-4">
-                      <div className="text-4xl sm:text-5xl drop-shadow-glow text-green-400">{item.icon}</div>
+                      <div className="text-4xl sm:text-5xl drop-shadow-glow text-green-400">
+                        {item.icon}
+                      </div>
                     </div>
                     <h3 className="text-xl font-semibold text-green-300 tracking-wide mb-2">
                       {item.title}
                     </h3>
                     <p className="text-sm text-green-100 opacity-80 leading-relaxed">{item.desc}</p>
-                    <div className="absolute -inset-px border border-green-400/10 rounded-2xl blur-sm group-hover:opacity-50 transition-opacity duration-300 pointer-events-none"></div>
+                    <div className="absolute -inset-px border border-green-400/10 rounded-2xl blur-sm group-hover:opacity-50 transition-opacity duration-300 pointer-events-none" />
                   </motion.div>
                 ))}
               </motion.div>
             </div>
+
 
           </motion.div>
         </section>
@@ -252,6 +258,16 @@ export default function HomePage() {
         <div className="scroll-section">
           <FeaturesGrid />
         </div>
+        <div className="scroll-section">
+          {/* <HowItWorks /> */}
+          <AnimatedProcessScroll />
+        </div>
+        <div className="scroll-section">
+          <CallToActionRoadmap />
+        </div>
+        {/* <div className="scroll-section">
+          <AnimatedProcessScroll />
+        </div> */}
       </main>
     </MainLayout>
   );

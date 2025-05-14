@@ -148,4 +148,25 @@ body {
 }
 
 
+@keyframes gradientWave {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@layer utilities {
+  .animated-gradient {
+    @apply absolute inset-0;
+    background: linear-gradient(270deg,
+      rgba(60, 76, 68, 0.9),     /* slightly lighter than #32423a */
+      rgba(45, 54, 50, 0.9),     /* slightly lighter than #232c28 */
+      rgba(35, 42, 39, 0.9),     /* slightly lighter than #19201d */
+      rgba(25, 30, 28, 0.9)      /* slightly lighter than #0f1412 */
+    );
+    background-size: 300% 300%;
+    animation: gradientWave 10s ease-in-out infinite;
+    
+    opacity: 1;
+  }
+}
 
