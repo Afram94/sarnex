@@ -50,8 +50,8 @@ export default function WhyChooseUs() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="will-change-opacity bg-zinc-900 border border-[#51625833] rounded-xl p-6 text-center hover:border-[#516258] transition-all duration-300"
+              transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}
+              className="will-change-opacity bg-zinc-900 border border-[#51625833] rounded-xl p-6 text-center hover:border-[#516258] transition-colors duration-300"
             >
               <div className="flex items-center justify-center mb-4">
                 <Icon className="w-7 h-7 text-[#516258]" />
