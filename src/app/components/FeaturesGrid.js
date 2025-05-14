@@ -40,7 +40,6 @@ export default function FeaturesList() {
   const [positions, setPositions] = useState({})
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
 
-  // Calculate feature card center positions relative to the container
   useEffect(() => {
     const updatePositions = () => {
       const newPos = {}
@@ -65,7 +64,6 @@ export default function FeaturesList() {
     return () => window.removeEventListener('resize', updatePositions)
   }, [])
 
-  // Cursor tracking for glow trail
   useEffect(() => {
     const move = (e) => setCursor({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', move)
@@ -77,14 +75,12 @@ export default function FeaturesList() {
       className="relative bg-[#0f1111] py-32 px-6 overflow-hidden"
       ref={containerRef}
     >
-      {/* Glow trail following cursor */}
       <motion.div
         className="pointer-events-none fixed top-0 left-0 w-32 h-32 bg-teal-400/10 rounded-full blur-2xl z-20"
         animate={{ x: cursor.x - 64, y: cursor.y - 64 }}
         transition={{ type: 'spring', stiffness: 60, damping: 20 }}
       />
 
-      {/* Animated connector lines */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         {['a', 'b', 'c'].map((from, i) => {
           const to = ['b', 'c', 'd'][i]
@@ -104,12 +100,11 @@ export default function FeaturesList() {
         })}
       </svg>
 
-      {/* Section header */}
       <div className="text-center max-w-2xl mx-auto mb-20 relative z-20">
         <span className="inline-block text-sm bg-white/10 text-white/60 px-3 py-1 rounded-full mb-4">
           Coming Soon
         </span>
-        <h2 className="text-4xl md:text-5xl font-bold text-[#9cc0ab]">
+        <h2 className="text-4xl md:text-5xl font-bold text-white">
           Upcoming Features
         </h2>
         <p className="text-white/60 mt-4 text-base md:text-lg">
@@ -118,7 +113,6 @@ export default function FeaturesList() {
         </p>
       </div>
 
-      {/* Feature cards */}
       <div className="relative z-20 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
         {features.map(({ id, title, subtitle, description }) => (
           <Tilt
@@ -143,7 +137,7 @@ export default function FeaturesList() {
 
               <div className="w-full aspect-[3/2] bg-black rounded-t-3xl overflow-hidden flex items-center justify-center">
                 <img
-                  src={`https://placehold.co/600x400/0f1111/ffffff?text=${encodeURIComponent(
+                  src={`https://via.placeholder.com/600x400.png?text=${encodeURIComponent(
                     title
                   )}`}
                   alt={title}
@@ -163,7 +157,6 @@ export default function FeaturesList() {
         ))}
       </div>
 
-      {/* Optional CTA */}
       <div className="text-center mt-24 max-w-xl mx-auto">
         <p className="text-white/80 mb-4">Want early access?</p>
         <form className="flex flex-col sm:flex-row items-center justify-center gap-3">
