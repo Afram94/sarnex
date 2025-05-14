@@ -42,7 +42,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/home" className="flex items-center">
             <Image
-              src="/sarnex_logo_navbar222.png"
+              src="/DIGITAL.png"
               alt="Sarnex Logo"
               width={130}
               height={60}

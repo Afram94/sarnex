@@ -6,7 +6,16 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        dash: 'dash 1.5s linear infinite',
+      },
+      keyframes: {
+        dash: {
+          to: { strokeDashoffset: '-10' },
+        },
+      },
+    },
   },
   plugins: [],
-};
+}

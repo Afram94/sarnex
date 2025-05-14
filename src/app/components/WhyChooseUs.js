@@ -29,11 +29,10 @@ const features = [
 export default function WhyChooseUs() {
   return (
     <section className="relative py-24 overflow-hidden bg-black">
-      {/* Animated background layer */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full bg-[radial-gradient(circle_at_20%_20%,#51625833_0%,#000000_80%)] animate-pulse-slow opacity-30" />
-      </div>
+      {/* Subtle radial light background */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_30%_30%,#8fc7b033_0%,#000000_80%)]" />
 
+      {/* Main content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center mb-16">
