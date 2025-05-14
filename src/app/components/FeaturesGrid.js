@@ -133,7 +133,7 @@ export default function FeaturesList() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="will-change-opacity group relative backdrop-blur-xl border border-white/10 bg-white/5 rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:border-teal-400/20"
+              className="will-change-opacity group relative backdrop-blur-xl border border-white/10 bg-white/5 rounded-3xl shadow-xl overflow-hidden transition-colors duration-300 hover:shadow-2xl hover:border-teal-400/20"
             >
               {/* Hover glow ring */}
               <div className="absolute -inset-[2px] bg-gradient-to-tr from-teal-500 via-transparent to-indigo-500 blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl pointer-events-none" />
