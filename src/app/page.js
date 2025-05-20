@@ -9,6 +9,9 @@ import FeaturesGrid from './components/FeaturesGrid'
 import HowItWorks from './components/HowItWorks'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedProcessScroll from './components/AnimatedProcessScroll'
+import RealProblemsFixed from './components/RealProblemsFixed'
+import ProjectCard from './components/ProjectCard'
+import FeaturedWork from './components/FeaturedWork'
 
 const messages = [
   'Websites that rank. And convert.',
@@ -183,7 +186,7 @@ export default function HomePage() {
             </div>
 
             {/* Feature Highlights */}
-            <div className="mt-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            {/* <div className="mt-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
               <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 {[
                   {
@@ -222,18 +225,22 @@ export default function HomePage() {
                   </motion.div>
                 ))}
               </motion.div>
-            </div>
+            </div> */}
           </motion.div>
         </section>
 
         <div className="scroll-section">
-          <WhyChooseUs />
+          {/* <WhyChooseUs /> */}
+          <RealProblemsFixed />
         </div>
         <div className="scroll-section">
           <FeaturesGrid />
         </div>
         <div className="scroll-section">
           <AnimatedProcessScroll />
+        </div>
+        <div className="scroll-section">
+          <FeaturedWork />
         </div>
         <div className="scroll-section">
           <CallToActionRoadmap />
