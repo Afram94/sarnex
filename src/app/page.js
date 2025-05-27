@@ -1,18 +1,60 @@
 'use client'
 
-import { useInView } from 'react-intersection-observer'
-import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import MainLayout from '../app/components/MainLayout'
-import WhyChooseUs from './components/WhyChooseUs'
-import FeaturesGrid from './components/FeaturesGrid'
-import HowItWorks from './components/HowItWorks'
-import CallToActionRoadmap from './components/CallToActionRoadmap'
-import AnimatedProcessScroll from './components/AnimatedProcessScroll'
 import RealProblemsFixed from './components/RealProblemsFixed'
-import ProjectCard from './components/ProjectCard'
+import FeaturesGrid from './components/FeaturesGrid'
+import AnimatedProcessScroll from './components/AnimatedProcessScroll'
 import FeaturedWork from './components/FeaturedWork'
+import CallToActionRoadmap from './components/CallToActionRoadmap'
+import AnimatedWordsSwap from './components/AnimatedWordsSwap'
 
+// ✅ Animated Word Swapper
+/* function AnimatedWordsSwap() {
+  const words = ['Perform', 'Convert']
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % words.length)
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={words[index]}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.4 }}
+        className="text-[#9cc0ab]"
+      >
+        {words[index]}
+      </motion.span>
+    </AnimatePresence>
+  )
+} */
+
+// ✅ Wavy Text for "Online"
+function WavyText({ text }) {
+  return (
+    <span
+      className="inline-block tracking-wide ml-2 
+                 bg-gradient-to-r from-hunter via-beige to-army 
+                 bg-[length:300%_300%] bg-clip-text text-transparent animate-wave"
+    >
+      {text}
+    </span>
+  )
+}
+
+
+
+
+// ✅ Typewriter Text
 const messages = [
   'Websites that rank. And convert.',
   'Design, SEO, control — all yours.',
@@ -21,7 +63,7 @@ const messages = [
   'Scale your site, effortlessly.',
 ]
 
-const TypewriterText = () => {
+function TypewriterText() {
   const [text, setText] = useState('')
   const [index, setIndex] = useState(0)
   const [subIndex, setSubIndex] = useState(0)
@@ -34,7 +76,7 @@ const TypewriterText = () => {
         timeout = setTimeout(() => {
           setText((prev) => prev + messages[index][subIndex])
           setSubIndex((prev) => prev + 1)
-        }, 65)
+        }, 60)
       } else {
         timeout = setTimeout(() => setVisible(false), 2000)
       }
@@ -44,193 +86,92 @@ const TypewriterText = () => {
         setSubIndex(0)
         setIndex((prev) => (prev + 1) % messages.length)
         setVisible(true)
-      }, 500)
+      }, 600)
     }
     return () => clearTimeout(timeout)
   }, [subIndex, visible])
 
-  return (
-    <motion.h2
-      className="text-[1.5rem] min-h-[6rem] neon-text sm:text-3xl md:text-5xl text-green-400 font-mono text-center whitespace-pre-wrap leading-snug tracking-normal"
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.5 }}
+return (
+  <motion.p
+    className="text-[#b5cfc1] text-lg mb-6 max-w-xl mx-auto text-center"
+    animate={{ opacity: visible ? 1 : 0 }}
+    transition={{ duration: 0.5 }}
+  >
+    {text}
+    <motion.span
+      className="text-[#9cc0ab]"
+      animate={{ opacity: [1, 0, 1] }}
+      transition={{ repeat: Infinity, duration: 1 }}
     >
-      {text}
-      <motion.span
-        className="text-green-500"
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ repeat: Infinity, duration: 1 }}
-      >
-        |
-      </motion.span>
-    </motion.h2>
+      |
+    </motion.span>
+  </motion.p>
+)
+}
+
+// ✅ Hero Background
+function HeroBackground() {
+  return (
+    <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Dark base */}
+      <div className="absolute inset-0 bg-black opacity-75" />
+
+      {/* 🫧 Moving Blobs */}
+      <div className="absolute -top-1/3 -left-1/4 w-[600px] h-[600px] bg-[#9cc0ab] rounded-full blur-[120px] opacity-30 animate-blob1" />
+      <div className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-[#5c6a5a] rounded-full blur-[100px] opacity-30 animate-blob2" />
+      <div className="absolute top-1/4 right-1/3 w-[400px] h-[400px] bg-[#1f3d2b] rounded-full blur-[140px] opacity-30 animate-blob3" />
+
+      {/* 🌀 Subtle grain overlay */}
+      <div className="absolute inset-0 -z-10 overflow-hidden bg-[url('/grain_6.png')] bg-repeat bg-animated" />
+    </div>
   )
 }
 
+
+// ✅ Page Component
 export default function HomePage() {
-  const [isClient, setIsClient] = useState(false)
-  const heroRef = useRef(null)
-  const cursorRef = useRef(null)
-  const chars = '<>/@{}[]$%&*#'.split('')
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  useEffect(() => {
-    if (!isClient) return
-    const canvas = document.getElementById('codeRain')
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    const symbols = chars
-    const fontSize = 14
-    const columns = Math.floor(window.innerWidth / fontSize)
-    const drops = Array(columns).fill(1)
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-      ctx.fillStyle = '#00ff90'
-      ctx.font = `${fontSize}px monospace`
-
-      for (let i = 0; i < drops.length; i++) {
-        const char = symbols[Math.floor(Math.random() * symbols.length)]
-        ctx.fillText(char, i * fontSize, drops[i] * fontSize)
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0
-        }
-
-        drops[i]++
-      }
-    }
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-
-    resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
-    const interval = setInterval(draw, 60)
-
-    return () => {
-      clearInterval(interval)
-      window.removeEventListener('resize', resizeCanvas)
-    }
-  }, [isClient])
-
-  const { ref: contentRef, inView: contentInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  })
-
   return (
     <MainLayout>
-      <main className="min-h-screen bg-gray-100 text-gray-900">
-        <section
-          ref={heroRef}
-          onMouseMove={(e) => {
-            const x = e.clientX
-            const y = e.clientY
+      <main className="relative text-white">
+        {/* ✨ Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center text-center px-6 md:px-20 py-24 overflow-hidden">
+          <HeroBackground />
 
-            if (cursorRef.current) {
-              cursorRef.current.style.transform = `translate(${x}px, ${y}px)`
-            }
+          <div className="z-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center text-[#d7eae1] leading-tight mb-10 space-y-3">
+              <div>We build Custom Websites</div>
+              <div className="inline-flex items-center justify-center gap-2">
+                <span>That</span>
+                <AnimatedWordsSwap />
+              </div>
+              <div>
+                <WavyText text="Online" />
+              </div>
+            </h1>
 
-            const particle = document.createElement('div')
-            particle.className = 'matrix-particle'
-            particle.innerText = chars[Math.floor(Math.random() * chars.length)]
-            particle.style.left = `${x}px`
-            particle.style.top = `${y}px`
-            document.body.appendChild(particle)
 
-            setTimeout(() => {
-              particle.remove()
-            }, 1000)
-          }}
-          className="relative flex flex-col items-center justify-center min-h-screen w-full text-center overflow-hidden bg-black px-4 sm:px-6 pt-40 pb-12 sm:pt-0"
-        >
-          <h1 className="sr-only">
-            Sarnex Digital: Custom Websites with Admin Access, SEO, and Hosting
-          </h1>
 
-          <canvas
-            id="codeRain"
-            className="absolute inset-0 w-full h-full z-0 pointer-events-none"
-          />
+            <TypewriterText />
 
-          <motion.div
-            ref={contentRef}
-            initial={{ opacity: 0 }}
-            animate={contentInView ? { opacity: 1 } : {}}
-            transition={{ duration: 1.2, ease: 'easeInOut' }}
-            className="relative z-10 w-full max-w-6xl px-4 sm:px-6"
-          >
-            <div className="bg-black/60 backdrop-blur-sm border border-green-500/10 rounded-xl px-4 py-6 sm:px-8 sm:py-10 shadow-lg shadow-green-400/5">
-              <p className="text-sm sm:text-base md:text-lg text-green-300 font-mono text-center mb-4 tracking-wide">
-                We build custom websites for you, giving you full control over design, content, and performance.
-              </p>
-
-              <TypewriterText />
-
-              <motion.p
-                data-text="Precision-engineered websites built with performance, security, and clarity — no noise, no fluff."
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, duration: 1 }}
-                className="glitch-text text-base sm:text-lg md:text-xl max-w-3xl mx-auto mt-6 text-green-200 text-center break-words hyphens-auto"
+            <div className="flex flex-wrap gap-4 mt-6 justify-center">
+              <a
+                href="#features"
+                className="bg-[#9cc0ab] hover:bg-[#85a893] text-black font-semibold px-6 py-3 rounded-lg transition"
               >
-                Precision-engineered websites built with performance, security, and clarity — no noise, no fluff.
-              </motion.p>
+                See Features
+              </a>
+              <a
+                href="#contact"
+                className="border border-white/30 hover:bg-white/10 px-6 py-3 rounded-lg transition"
+              >
+                Book a Call
+              </a>
             </div>
-
-            {/* Feature Highlights */}
-            {/* <div className="mt-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-              <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {[
-                  {
-                    title: 'Custom CMS',
-                    icon: '⚙️',
-                    desc: 'Easily manage content and design without touching code.',
-                  },
-                  {
-                    title: 'SEO Dashboard',
-                    icon: '📈',
-                    desc: 'Track visibility, keywords, and traffic in real time.',
-                  },
-                  {
-                    title: 'Fast Hosting',
-                    icon: '🚀',
-                    desc: 'Scalable infrastructure optimized for speed and security.',
-                  },
-                ].map((item, index) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.2 }}
-                    className="will-change-opacity relative group bg-black/30 border border-green-500/20 rounded-2xl px-6 py-8 text-center shadow-lg backdrop-blur-md hover:shadow-green-500/30 transition-colors duration-300"
-                  >
-                    <div className="flex justify-center mb-4">
-                      <div className="text-4xl sm:text-5xl drop-shadow-glow text-green-400">
-                        {item.icon}
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold text-green-300 tracking-wide mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-green-100 opacity-80 leading-relaxed">{item.desc}</p>
-                    <div className="absolute -inset-px border border-green-400/10 rounded-2xl blur-sm group-hover:opacity-50 transition-opacity duration-300 pointer-events-none" />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div> */}
-          </motion.div>
+          </div>
         </section>
 
+        {/* 🔻 Scroll Sections */}
         <div className="scroll-section">
-          {/* <WhyChooseUs /> */}
           <RealProblemsFixed />
         </div>
         <div className="scroll-section">

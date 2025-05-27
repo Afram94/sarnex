@@ -4,14 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function AnimatedWordsSwap() {
-  const words = [
-    'Perform',
-    'Convert',
-    'Scale',
-    'Grow',
-    'Lead',
-  ]
-
+  const words = ['Perform', 'Convert', 'Scale', 'Grow', 'Lead']
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
@@ -22,7 +15,7 @@ export default function AnimatedWordsSwap() {
   }, [index])
 
   return (
-    <div className="inline-block w-[130px] text-right align-middle mr-2">
+    <div className="w-[160px] mx-auto text-center">
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}

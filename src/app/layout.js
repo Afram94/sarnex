@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
           ${geistSans.variable} 
           ${geistMono.variable} 
           antialiased 
-          bg-green-500 
+          bg-[#9cc0ab]
           min-h-screen 
           text-white
         `}
