@@ -31,11 +31,11 @@ export default {
           '0%, 100%': { backgroundPosition: '20% 30%' },
           '50%': { backgroundPosition: '80% 70%' },
         },
-        wave: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 50%' },
-        },
+        /* wave: {
+          '0%': { transform: 'translate(-50%, -10%)' },
+          '50%': { transform: 'translate(-50%, 10%)' },
+          '100%': { transform: 'translate(-50%, -10%)' },
+        }, */
         blob1: {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '50%': { transform: 'translate(30px, -50px) scale(1.1)' },

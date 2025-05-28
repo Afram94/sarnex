@@ -15,7 +15,7 @@ export default function AnimatedWordsSwap() {
   }, [index])
 
   return (
-    <div className="w-[160px] mx-auto text-center">
+    <div className="inline-block min-w-[120px] text-left text-[#9cc0ab]">
       <AnimatePresence mode="wait">
         <motion.span
           key={words[index]}
@@ -23,7 +23,7 @@ export default function AnimatedWordsSwap() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="text-[#9cc0ab] inline-block"
+          className="inline-block"
         >
           {words[index]}
         </motion.span>
