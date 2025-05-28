@@ -27,9 +27,9 @@ export default function PricingPage() {
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.15 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
               viewport={{ once: true }}
               className="bg-hunter border border-beige/20 rounded-2xl p-8 shadow-xl text-left hover:shadow-2xl transition"
             >
@@ -70,7 +70,6 @@ export default function PricingPage() {
         <p className="text-sm text-beige/60 mt-2">*This service is optional and can be added anytime before or after launch.</p>
       </section>
 
-      *
       <section className="bg-hunter text-beige py-16 px-6 md:px-20 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Ongoing SEO Service</h2>
         <p className="max-w-xl mx-auto text-lg text-beige/80">
@@ -81,7 +80,6 @@ export default function PricingPage() {
           *This service will be available soon.
         </p>
       </section>
-      *
     </div>
   );
 }

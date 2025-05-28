@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const navLinks = [
-  { name: 'Home', href: '/home' },
+  { name: 'Home', href: '/' },
   { name: 'Features', href: '/features' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'About us', href: '/about' },
@@ -34,7 +34,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/home" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <Image
             src="/DIGITAL.png"
             alt="Sarnex Logo"
