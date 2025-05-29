@@ -58,22 +58,40 @@ export default function RealProblemsFixed() {
   )
 } */
 
-  'use client';
+'use client';
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import api from '../../../lib/axios';
+import dynamic from 'next/dynamic';
+
+// Custom hook to detect if it's a mobile device
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const updateSize = () => setIsMobile(window.innerWidth < 768);
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return isMobile;
+}
 
 export default function RealProblemsFixed() {
   const [problems, setProblems] = useState([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    let ignore = false;
     api.get('/problems')
-      .then(res => setProblems(res.data))
+      .then(res => {
+        if (!ignore) setProblems(res.data);
+      })
       .catch(err => console.error('Error loading problems:', err));
+    return () => { ignore = true; };
   }, []);
 
-  if (problems.length === 0) return null; // optional loading state
+  if (problems.length === 0) return null;
 
   return (
     <section className="relative py-28 bg-[#0d0d0d] text-white px-6 overflow-hidden">
@@ -92,16 +110,14 @@ export default function RealProblemsFixed() {
         {problems.map(({ id, before, after, card_bg_color, text_color, font_family }, index) => (
           <motion.div
             key={id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            initial={isMobile ? false : { opacity: 0, y: 20 }}
+            whileInView={isMobile ? false : { opacity: 1, y: 0 }}
+            viewport={isMobile ? false : { once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className="rounded-3xl p-8 shadow-xl border border-white/10 transition-all duration-300 hover:shadow-[#9cc0ab]/20"
-            style={{
-              backgroundColor: card_bg_color || '#18181b',
-              color: text_color || '#ffffff',
-              fontFamily: font_family || 'sans-serif',
-            }}
+            className={`rounded-3xl p-8 shadow-xl border border-white/10 transition-all duration-300 hover:shadow-[#9cc0ab]/20 
+              ${card_bg_color || 'bg-[#18181b]'} 
+              ${text_color || 'text-white'} 
+              ${font_family || 'font-sans'}`}
           >
             <div className="mb-6">
               <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Before</p>
@@ -117,4 +133,5 @@ export default function RealProblemsFixed() {
     </section>
   );
 }
+
 

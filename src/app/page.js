@@ -10,7 +10,6 @@ import FeaturedWork from './components/FeaturedWork'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedWordsSwap from './components/AnimatedWordsSwap'
 
-// ✅ Typewriter Text
 const messages = [
   'Websites that rank. And convert.',
   'Design, SEO, control — all yours.',
@@ -19,13 +18,30 @@ const messages = [
   'Scale your site, effortlessly.',
 ]
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  return isMobile
+}
+
 function TypewriterText() {
   const [text, setText] = useState('')
   const [index, setIndex] = useState(0)
   const [subIndex, setSubIndex] = useState(0)
   const [visible, setVisible] = useState(true)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
+    if (isMobile) {
+      setText(messages[index])
+      return
+    }
+
     let timeout
     if (visible) {
       if (subIndex < messages[index].length) {
@@ -45,7 +61,7 @@ function TypewriterText() {
       }, 600)
     }
     return () => clearTimeout(timeout)
-  }, [subIndex, visible])
+  }, [subIndex, visible, index, isMobile])
 
   return (
     <motion.p
@@ -54,31 +70,36 @@ function TypewriterText() {
       transition={{ duration: 0.5 }}
     >
       {text}
-      <motion.span
-        className="text-[#9cc0ab]"
-        animate={{ opacity: [1, 0, 1] }}
-        transition={{ repeat: Infinity, duration: 1 }}
-      >
-        |
-      </motion.span>
+      {!isMobile && (
+        <motion.span
+          className="text-[#9cc0ab]"
+          animate={{ opacity: [1, 0, 1] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+        >
+          |
+        </motion.span>
+      )}
     </motion.p>
   )
 }
 
-// ✅ Hero Background
 function HeroBackground() {
+  const isMobile = useIsMobile()
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0 bg-black opacity-75" />
-      <div className="absolute -top-1/3 -left-1/4 w-[600px] h-[600px] bg-[#9cc0ab] rounded-full blur-[120px] opacity-30 animate-blob1" />
-      <div className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-[#5c6a5a] rounded-full blur-[100px] opacity-30 animate-blob2" />
-      <div className="absolute top-1/4 right-1/3 w-[400px] h-[400px] bg-[#1f3d2b] rounded-full blur-[140px] opacity-30 animate-blob3" />
+      {!isMobile && (
+        <>
+          <div className="absolute -top-1/3 -left-1/4 w-[600px] h-[600px] bg-[#9cc0ab] rounded-full blur-[120px] opacity-30 animate-blob1" />
+          <div className="absolute -bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-[#5c6a5a] rounded-full blur-[100px] opacity-30 animate-blob2" />
+          <div className="absolute top-1/4 right-1/3 w-[400px] h-[400px] bg-[#1f3d2b] rounded-full blur-[140px] opacity-30 animate-blob3" />
+        </>
+      )}
       <div className="absolute inset-0 -z-10 overflow-hidden bg-[url('/grain_6.png')] bg-repeat bg-animated" />
     </div>
   )
 }
 
-// ✅ Main Page
 export default function HomePage() {
   return (
     <MainLayout>
@@ -116,7 +137,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 🔻 Scroll Sections */}
         <div className="scroll-section"><RealProblemsFixed /></div>
         <div className="scroll-section"><FeaturesGrid /></div>
         <div className="scroll-section"><AnimatedProcessScroll /></div>
