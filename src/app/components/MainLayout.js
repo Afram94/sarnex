@@ -2,6 +2,8 @@
 
 import Head from "next/head";
 import Navbar from "./Navbar";
+import Footer from '../components/Footer';
+
 
 export default function MainLayout({ children }) {
   return (
@@ -21,7 +23,7 @@ export default function MainLayout({ children }) {
       <main className="full-h-screen">{children}</main>
 
       {/* Footer at the bottom */}
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

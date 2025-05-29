@@ -1,13 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
+import MainLayout from '../components/MainLayout';
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-hunter text-beige">
-      <Navbar />
-
+    <MainLayout>
       <section className="py-24 px-6 md:px-20 text-center bg-gradient-to-b from-hunter to-army">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
@@ -61,7 +59,7 @@ export default function PricingPage() {
         <p className="mt-4 text-xl font-semibold text-hunter">From 250 kr/month</p>
       </section>
 
-      <section className="bg-army text-beige py-16 px-6 md:px-20 text-center">
+      <section className="bg-hunter text-beige py-16 px-6 md:px-20 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Optional Add-On: Logo & Brand Kit</h2>
         <p className="max-w-xl mx-auto text-lg text-beige/90">
           For clients who don't already have a brand — this includes a simple logo, a professional color palette, and matching font pairings to give your site a cohesive look.
@@ -70,7 +68,7 @@ export default function PricingPage() {
         <p className="text-sm text-beige/60 mt-2">*This service is optional and can be added anytime before or after launch.</p>
       </section>
 
-      <section className="bg-hunter text-beige py-16 px-6 md:px-20 text-center">
+      <section className="bg-army text-beige py-16 px-6 md:px-20 text-center border-b">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Ongoing SEO Service</h2>
         <p className="max-w-xl mx-auto text-lg text-beige/80">
           Monthly SEO monitoring and optimization services to keep your site performing and ranking better over time.
@@ -80,7 +78,7 @@ export default function PricingPage() {
           *This service will be available soon.
         </p>
       </section>
-    </div>
+    </MainLayout>
   );
 }
 
