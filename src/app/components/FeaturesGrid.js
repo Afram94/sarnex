@@ -3,25 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
-import api from '../../../lib/axios';
 
-export default function FeaturesList() {
+export default function FeaturesGrid({ features = [] }) {
   const containerRef = useRef(null);
   const [positions, setPositions] = useState({});
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const [features, setFeatures] = useState([]);
-
-  useEffect(() => {
-    const fetchFeatures = async () => {
-      try {
-        const res = await api.get('/features');
-        setFeatures(res.data);
-      } catch (err) {
-        console.error('Failed to load features:', err);
-      }
-    };
-    fetchFeatures();
-  }, []);
 
   useEffect(() => {
     const updatePositions = () => {
@@ -47,35 +32,35 @@ export default function FeaturesList() {
     return () => window.removeEventListener('resize', updatePositions);
   }, [features]);
 
-  useEffect(() => {
-    const move = (e) => setCursor({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', move);
-    return () => window.removeEventListener('mousemove', move);
-  }, []);
+  if (!features.length) return null;
 
   return (
     <section
-      className="relative bg-gradient-to-b from-hunter via-army to-[#1f3529] py-40 px-6 overflow-hidden w-full before:absolute before:inset-0 before:bg-[url('/background.svg')] before:opacity-10 before:bg-center before:bg-cover before:z-0"
+      className="relative bg-gradient-to-b from-hunter via-army to-[#1f3529] py-40 px-6 overflow-hidden w-full"
       ref={containerRef}
     >
-      <motion.div
-        className="pointer-events-none fixed top-0 left-0 w-40 h-40 bg-brand-green/10 rounded-full blur-3xl z-20"
-        animate={{ x: cursor.x - 80, y: cursor.y - 80 }}
-        transition={{ type: 'spring', stiffness: 50, damping: 18 }}
-      />
+      {/* Moving dashed lines */}
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+        {features.slice(0, -1).map((fromFeature, i) => {
+          const from = fromFeature.id;
+          const to = features[i + 1]?.id;
+          return positions[from] && positions[to] ? (
+            <line
+              key={`${from}-${to}`}
+              x1={positions[from].x}
+              y1={positions[from].y}
+              x2={positions[to].x}
+              y2={positions[to].y}
+              stroke="rgba(94,252,211,0.3)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+              className="animate-dash"
+            />
+          ) : null;
+        })}
+      </svg>
 
-      <motion.div
-        className="absolute -bottom-10 left-1/2 w-[180%] h-[180%] -translate-x-1/2 bg-gradient-to-tr from-army via-transparent to-brand-green opacity-10 blur-[120px] rotate-12 z-0"
-        animate={{ scale: [1, 1.05, 1], rotate: [12, 14, 12] }}
-        transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
-      />
-
-      <motion.div
-        className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-brand-green/10 via-transparent to-transparent opacity-20 z-10"
-        animate={{ opacity: [0.1, 0.3, 0.1] }}
-        transition={{ repeat: Infinity, duration: 8, ease: 'easeInOut' }}
-      />
-
+      {/* Heading */}
       <div className="text-center max-w-3xl mx-auto mb-24 relative z-20">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -91,25 +76,7 @@ export default function FeaturesList() {
         </p>
       </div>
 
-      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-        {features.slice(0, -1).map((from, i) => {
-          const to = features[i + 1];
-          return positions[from.id] && positions[to.id] ? (
-            <line
-              key={`${from.id}-${to.id}`}
-              x1={positions[from.id].x}
-              y1={positions[from.id].y}
-              x2={positions[to.id].x}
-              y2={positions[to.id].y}
-              stroke="rgba(156, 192, 171, 0.3)"
-              strokeWidth="1.5"
-              strokeDasharray="4 6"
-              className="animate-dash"
-            />
-          ) : null;
-        })}
-      </svg>
-
+      {/* Feature Cards */}
       <div className="relative z-20 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
         {features.map(({ id, title, subtitle, description, image_url }, index) => (
           <Tilt
@@ -159,6 +126,7 @@ export default function FeaturesList() {
     </section>
   );
 }
+
 
 
 

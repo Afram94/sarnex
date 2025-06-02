@@ -9,6 +9,7 @@ import AnimatedProcessScroll from './components/AnimatedProcessScroll'
 import FeaturedWork from './components/FeaturedWork'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedWordsSwap from './components/AnimatedWordsSwap'
+import FeaturesListClient from './components/FeaturesListClient';
 
 // ✅ Typewriter Text
 const messages = [
@@ -118,7 +119,7 @@ export default function HomePage() {
 
         {/* 🔻 Scroll Sections */}
         <div className="scroll-section"><RealProblemsFixed /></div>
-        <div className="scroll-section"><FeaturesGrid /></div>
+        <div className="scroll-section"><FeaturesListClient /></div>
         <div className="scroll-section"><AnimatedProcessScroll /></div>
         <div className="scroll-section"><FeaturedWork /></div>
         <div className="scroll-section"><CallToActionRoadmap /></div>

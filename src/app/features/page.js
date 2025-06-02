@@ -1,10 +1,17 @@
+// app/features/page.js
+
+import FeaturesListServer from '../components/FeaturesListServer';
+import MainLayout from '../components/MainLayout';
+
 export const metadata = {
   title: 'Features | Sarnex Digital',
   description: 'Explore the powerful features built into every Sarnex Digital website.',
 };
 
-import FeaturesClient from './FeaturesClient';
-
 export default function FeaturesPage() {
-  return <FeaturesClient />;
+  return (
+    <MainLayout>
+      <FeaturesListServer />
+    </MainLayout>
+  );
 }
