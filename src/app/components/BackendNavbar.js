@@ -9,7 +9,7 @@ export default function BackendNavbar({ user }) {
         <span className="text-gray-600">👋 {user.name}</span>
         <button
           onClick={() => {
-            localStorage.removeItem('access_token');
+            localStorage.removeItem('token');
             window.location.href = '/login';
           }}
           className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"

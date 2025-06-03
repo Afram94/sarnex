@@ -49,7 +49,7 @@ export default function PrivacyPolicyPage() {
               <p>
                 Have questions? Email us at{' '}
                 <a
-                  href="mailto:hello@sarnexdigital.se"
+                  href="mailto:info@sarnexdigital.se"
                   className="underline text-brand-green hover:text-brand-green/80"
                 >
                   info@sarnexdigital.se
