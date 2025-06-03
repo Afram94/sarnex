@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
+import Link from 'next/link';
 
 export default function FeaturesGrid({ features = [] }) {
   const containerRef = useRef(null);
@@ -78,54 +79,56 @@ export default function FeaturesGrid({ features = [] }) {
 
       {/* Feature Cards */}
       <div className="relative z-20 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
-        {features.map(({ id, title, subtitle, description, image_url }, index) => (
-          <Tilt
-            key={id}
-            tiltMaxAngleX={10}
-            tiltMaxAngleY={10}
-            glareEnable
-            glareMaxOpacity={0.2}
-            scale={1.02}
-            transitionSpeed={1500}
-          >
-            <motion.div
-              data-id={id}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="will-change-opacity group relative backdrop-blur-xl border border-beige/10 bg-beige/5 rounded-3xl shadow-xl overflow-hidden transition-colors duration-300 hover:shadow-2xl hover:border-brand-green/30"
+        {features.map(({ id, title, subtitle, description, image_url, slug }, index) => (
+          <Link href={`/features/${slug}`} key={id} className="block">
+            <Tilt
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              glareEnable
+              glareMaxOpacity={0.2}
+              scale={1.02}
+              transitionSpeed={1500}
             >
-              <div className="absolute -inset-[2px] bg-gradient-to-tr from-brand-green via-transparent to-army blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl pointer-events-none" />
+              <motion.div
+                data-id={id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className="will-change-opacity group relative backdrop-blur-xl border border-beige/10 bg-beige/5 rounded-3xl shadow-xl overflow-hidden transition-colors duration-300 hover:shadow-2xl hover:border-brand-green/30"
+              >
+                <div className="absolute -inset-[2px] bg-gradient-to-tr from-brand-green via-transparent to-army blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl pointer-events-none" />
 
-              <div className="w-full aspect-[3/2] bg-army rounded-t-3xl overflow-hidden">
-                {image_url ? (
-                  <img
-                    src={image_url}
-                    alt={title}
-                    className="w-full h-full object-cover rounded-t-3xl"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-beige text-lg font-mono tracking-wide opacity-80">
-                    {title}
-                  </div>
-                )}
-              </div>
+                <div className="w-full aspect-[3/2] bg-army rounded-t-3xl overflow-hidden">
+                  {image_url ? (
+                    <img
+                      src={image_url}
+                      alt={title}
+                      className="w-full h-full object-cover rounded-t-3xl"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-beige text-lg font-mono tracking-wide opacity-80">
+                      {title}
+                    </div>
+                  )}
+                </div>
 
-              <div className="p-6">
-                <h4 className="text-xs uppercase tracking-widest text-beige/70 mb-1">
-                  {subtitle}
-                </h4>
-                <h3 className="text-xl font-semibold text-beige mb-2">{title}</h3>
-                <p className="text-beige/80 leading-relaxed">{description}</p>
-              </div>
-            </motion.div>
-          </Tilt>
+                <div className="p-6">
+                  <h4 className="text-xs uppercase tracking-widest text-beige/70 mb-1">
+                    {subtitle}
+                  </h4>
+                  <h3 className="text-xl font-semibold text-beige mb-2">{title}</h3>
+                  <p className="text-beige/80 leading-relaxed">{description}</p>
+                </div>
+              </motion.div>
+            </Tilt>
+          </Link>
         ))}
       </div>
     </section>
   );
 }
+
 
 
 
