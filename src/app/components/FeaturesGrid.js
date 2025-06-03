@@ -3,39 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
-import api from '../../../lib/axios';
+import Link from 'next/link';
 
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const updateSize = () => setIsMobile(window.innerWidth < 768);
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return isMobile;
-}
-
-export default function FeaturesList() {
+export default function FeaturesGrid({ features = [] }) {
   const containerRef = useRef(null);
   const [positions, setPositions] = useState({});
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const [features, setFeatures] = useState([]);
-  const isMobile = useIsMobile();
-
-  useEffect(() => {
-    let ignore = false;
-    const fetchFeatures = async () => {
-      try {
-        const res = await api.get('/features');
-        if (!ignore) setFeatures(res.data);
-      } catch (err) {
-        console.error('Failed to load features:', err);
-      }
-    };
-    fetchFeatures();
-    return () => { ignore = true; };
-  }, []);
 
   useEffect(() => {
     if (isMobile) return; // Skip line drawing on mobile
@@ -62,26 +34,35 @@ export default function FeaturesList() {
     return () => window.removeEventListener('resize', updatePositions);
   }, [features, isMobile]);
 
-  useEffect(() => {
-    if (isMobile) return;
-    const move = (e) => setCursor({ x: e.clientX, y: e.clientY });
-    window.addEventListener('mousemove', move);
-    return () => window.removeEventListener('mousemove', move);
-  }, [isMobile]);
+  if (!features.length) return null;
 
   return (
     <section
       className="relative bg-gradient-to-b from-hunter via-army to-[#1f3529] py-40 px-6 overflow-hidden w-full"
       ref={containerRef}
     >
-      {!isMobile && (
-        <motion.div
-          className="pointer-events-none fixed top-0 left-0 w-40 h-40 bg-brand-green/10 rounded-full blur-3xl z-20"
-          animate={{ x: cursor.x - 80, y: cursor.y - 80 }}
-          transition={{ type: 'spring', stiffness: 50, damping: 18 }}
-        />
-      )}
+      {/* Moving dashed lines */}
+      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+        {features.slice(0, -1).map((fromFeature, i) => {
+          const from = fromFeature.id;
+          const to = features[i + 1]?.id;
+          return positions[from] && positions[to] ? (
+            <line
+              key={`${from}-${to}`}
+              x1={positions[from].x}
+              y1={positions[from].y}
+              x2={positions[to].x}
+              y2={positions[to].y}
+              stroke="rgba(94,252,211,0.3)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+              className="animate-dash"
+            />
+          ) : null;
+        })}
+      </svg>
 
+      {/* Heading */}
       <div className="text-center max-w-3xl mx-auto mb-24 relative z-20">
         <motion.h2
           initial={{ opacity: 0 }}
@@ -97,76 +78,59 @@ export default function FeaturesList() {
         </p>
       </div>
 
-      {!isMobile && (
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-          {features.slice(0, -1).map((from, i) => {
-            const to = features[i + 1];
-            return positions[from.id] && positions[to.id] ? (
-              <line
-                key={`${from.id}-${to.id}`}
-                x1={positions[from.id].x}
-                y1={positions[from.id].y}
-                x2={positions[to.id].x}
-                y2={positions[to.id].y}
-                stroke="rgba(156, 192, 171, 0.3)"
-                strokeWidth="1.5"
-                strokeDasharray="4 6"
-                className="animate-dash"
-              />
-            ) : null;
-          })}
-        </svg>
-      )}
-
+      {/* Feature Cards */}
       <div className="relative z-20 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
-        {features.map(({ id, title, subtitle, description, image_url }, index) => (
-          <Tilt
-            key={id}
-            tiltMaxAngleX={isMobile ? 0 : 10}
-            tiltMaxAngleY={isMobile ? 0 : 10}
-            glareEnable={!isMobile}
-            glareMaxOpacity={0.2}
-            scale={1.02}
-            transitionSpeed={1500}
-          >
-            <motion.div
-              data-id={id}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="will-change-opacity group relative backdrop-blur-xl border border-beige/10 bg-beige/5 rounded-3xl shadow-xl overflow-hidden transition-colors duration-300 hover:shadow-2xl hover:border-brand-green/30"
+        {features.map(({ id, title, subtitle, description, image_url, slug }, index) => (
+          <Link href={`/features/${slug}`} key={id} className="block">
+            <Tilt
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              glareEnable
+              glareMaxOpacity={0.2}
+              scale={1.02}
+              transitionSpeed={1500}
             >
-              <div className="absolute -inset-[2px] bg-gradient-to-tr from-brand-green via-transparent to-army blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl pointer-events-none" />
+              <motion.div
+                data-id={id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                className="will-change-opacity group relative backdrop-blur-xl border border-beige/10 bg-beige/5 rounded-3xl shadow-xl overflow-hidden transition-colors duration-300 hover:shadow-2xl hover:border-brand-green/30"
+              >
+                <div className="absolute -inset-[2px] bg-gradient-to-tr from-brand-green via-transparent to-army blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-3xl pointer-events-none" />
 
-              <div className="w-full aspect-[3/2] bg-army rounded-t-3xl overflow-hidden">
-                {image_url ? (
-                  <img
-                    src={image_url}
-                    alt={title}
-                    className="w-full h-full object-cover rounded-t-3xl"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-beige text-lg font-mono tracking-wide opacity-80">
-                    {title}
-                  </div>
-                )}
-              </div>
+                <div className="w-full aspect-[3/2] bg-army rounded-t-3xl overflow-hidden">
+                  {image_url ? (
+                    <img
+                      src={image_url}
+                      alt={title}
+                      className="w-full h-full object-cover rounded-t-3xl"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-beige text-lg font-mono tracking-wide opacity-80">
+                      {title}
+                    </div>
+                  )}
+                </div>
 
-              <div className="p-6">
-                <h4 className="text-xs uppercase tracking-widest text-beige/70 mb-1">
-                  {subtitle}
-                </h4>
-                <h3 className="text-xl font-semibold text-beige mb-2">{title}</h3>
-                <p className="text-beige/80 leading-relaxed">{description}</p>
-              </div>
-            </motion.div>
-          </Tilt>
+                <div className="p-6">
+                  <h4 className="text-xs uppercase tracking-widest text-beige/70 mb-1">
+                    {subtitle}
+                  </h4>
+                  <h3 className="text-xl font-semibold text-beige mb-2">{title}</h3>
+                  <p className="text-beige/80 leading-relaxed">{description}</p>
+                </div>
+              </motion.div>
+            </Tilt>
+          </Link>
         ))}
       </div>
     </section>
   );
 }
+
+
 
 
 
