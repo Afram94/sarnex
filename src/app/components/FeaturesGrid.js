@@ -10,7 +10,6 @@ export default function FeaturesGrid({ features = [] }) {
   const [positions, setPositions] = useState({});
 
   useEffect(() => {
-    if (isMobile) return; // Skip line drawing on mobile
     const updatePositions = () => {
       const newPos = {};
       const containerRect = containerRef.current?.getBoundingClientRect();
@@ -32,7 +31,7 @@ export default function FeaturesGrid({ features = [] }) {
     updatePositions();
     window.addEventListener('resize', updatePositions);
     return () => window.removeEventListener('resize', updatePositions);
-  }, [features, isMobile]);
+  }, [features]);
 
   if (!features.length) return null;
 
@@ -65,8 +64,8 @@ export default function FeaturesGrid({ features = [] }) {
       {/* Heading */}
       <div className="text-center max-w-3xl mx-auto mb-24 relative z-20">
         <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-bold text-brand-green"
