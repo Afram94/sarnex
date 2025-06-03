@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://sarnexdigital.se
+
+# Sitemaps
+Sitemap: https://sarnexdigital.se/sitemap.xml
