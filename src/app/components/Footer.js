@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 export default function Footer() {
-const handleResetCookies = () => {
-  localStorage.removeItem('cookie-accepted');
-  window.location.reload();
-};
+  const handleResetCookies = () => {
+    // Align with CookieConsent localStorage key
+    localStorage.removeItem('cookieConsent');
+    window.location.reload();
+  };
 
 
   return (
