@@ -1,25 +1,22 @@
-// app/features/[slug]/page.js
-
 import { notFound } from 'next/navigation';
+import api from '../../../../lib/axios'; // your axios instance with auth token
 import VisualAdminPanelPage from '../../components/features/VisualAdminPanelPage';
 import GlobalStylingSystemPage from '../../components/features/GlobalStylingSystemPage';
 
-// This marks the route as dynamic
+// Mark route as dynamic (for params slug support)
 export const dynamic = 'force-dynamic';
 
+// Fetch feature data using axios
 async function getFeature(slug) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/features/slug/${slug}`, {
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch {
+    const res = await api.get(`/features/slug/${slug}`);
+    return res.data;
+  } catch (err) {
     return null;
   }
 }
 
-// ✅ Async wrapper to properly use await on params
+// Metadata for SEO
 export async function generateMetadata({ params }) {
   const { slug } = await Promise.resolve(params);
   const feature = await getFeature(slug);
@@ -43,8 +40,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// Feature page rendering
 export default async function FeaturePage({ params }) {
-  const { slug } = await Promise.resolve(params); // 👈 fix warning
+  const { slug } = await Promise.resolve(params);
   const feature = await getFeature(slug);
 
   if (!feature) return notFound();

@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 export default function Footer() {
+const handleResetCookies = () => {
+  localStorage.removeItem('cookie-accepted');
+  window.location.reload();
+};
+
+
   return (
     <footer className="bg-hunter text-beige px-6 md:px-20 py-16">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 text-sm">
@@ -46,8 +52,20 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-12 border-t border-beige/20 pt-6 text-center text-beige/60 text-xs">
+      {/* Bottom Row */}
+      <div className="mt-12 border-t border-beige/20 pt-6 text-center text-beige/60 text-xs space-y-2">
         <p>© {new Date().getFullYear()} Sarnex Digital. All rights reserved.</p>
+        <div className="flex justify-center gap-6">
+          <Link href="/privacy-policy" className="underline hover:text-brand-green">Privacy Policy</Link>
+          <button
+            onClick={handleResetCookies}
+            className="underline hover:text-brand-green transition"
+            aria-label="Manage cookie preferences"
+          >
+            Manage Cookies
+          </button>
+
+        </div>
       </div>
     </footer>
   );
