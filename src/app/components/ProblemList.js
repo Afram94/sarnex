@@ -9,12 +9,12 @@ export default function ProblemList() {
   const [problems, setProblems] = useState([]);
   const [selected, setSelected] = useState(null);
 
-  // 🆕 live preview state
   const [livePreview, setLivePreview] = useState({
     before: '',
     after: '',
-    card_bg_color: '#18181b',
-    text_color: '#ffffff',
+    card_bg_color: null,
+    before_text_color: '#fca5a5',
+    after_text_color: '#9cc0ab',
     font_family: 'sans-serif',
   });
 
@@ -37,7 +37,7 @@ export default function ProblemList() {
   return (
     <div className="space-y-10">
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        {/* 🧩 Form with live preview sync */}
+        {/* Form */}
         <ProblemForm
           selected={selected}
           onSave={fetchProblems}
@@ -46,7 +46,7 @@ export default function ProblemList() {
           setPreview={setLivePreview}
         />
 
-        {/* 🪞 Live Preview Card */}
+        {/* Live Preview */}
         <motion.div
           key="live-preview"
           initial={{ opacity: 0, y: 10 }}
@@ -54,19 +54,31 @@ export default function ProblemList() {
           transition={{ duration: 0.5 }}
           className="rounded-3xl p-6 shadow-xl border border-white/10 transition-all duration-300 hover:shadow-[#9cc0ab]/20"
           style={{
-            backgroundColor: livePreview.card_bg_color || '#18181b',
-            color: livePreview.text_color || '#ffffff',
+            background: livePreview.card_bg_color
+              ? livePreview.card_bg_color
+              : 'linear-gradient(to bottom right, #18181b, #1f1f1f)',
             fontFamily: livePreview.font_family || 'sans-serif',
           }}
         >
           <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Before</p>
-          <p className="text-sm italic leading-relaxed">{livePreview.before || '...'}</p>
+          <p
+            className="text-sm italic leading-relaxed"
+            style={{ color: livePreview.before_text_color || '#fca5a5' }}
+          >
+            {livePreview.before || '...'}
+          </p>
+
           <p className="mt-4 text-xs uppercase tracking-widest mb-1 opacity-60">After</p>
-          <p className="text-sm font-semibold leading-relaxed">{livePreview.after || '...'}</p>
+          <p
+            className="text-sm font-semibold leading-relaxed"
+            style={{ color: livePreview.after_text_color || '#9cc0ab' }}
+          >
+            {livePreview.after || '...'}
+          </p>
         </motion.div>
       </div>
 
-      {/* ✅ Real saved cards */}
+      {/* List of all cards */}
       <div className="bg-zinc-900 border border-white/10 p-6 rounded-2xl shadow-xl">
         <h2 className="text-2xl font-semibold text-white mb-6">All Cards</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -78,15 +90,28 @@ export default function ProblemList() {
               transition={{ delay: index * 0.05 }}
               className="rounded-3xl p-6 shadow-xl border border-white/10 transition-all"
               style={{
-                backgroundColor: p.card_bg_color || '#18181b',
-                color: p.text_color || '#ffffff',
+                background: p.card_bg_color
+                  ? p.card_bg_color
+                  : 'linear-gradient(to bottom right, #18181b, #1f1f1f)',
                 fontFamily: p.font_family || 'sans-serif',
               }}
             >
               <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Before</p>
-              <p className="text-sm italic leading-relaxed">{p.before}</p>
+              <p
+                className="text-sm italic leading-relaxed"
+                style={{ color: p.before_text_color || '#fca5a5' }}
+              >
+                {p.before}
+              </p>
+
               <p className="mt-4 text-xs uppercase tracking-widest mb-1 opacity-60">After</p>
-              <p className="text-sm font-semibold leading-relaxed">{p.after}</p>
+              <p
+                className="text-sm font-semibold leading-relaxed"
+                style={{ color: p.after_text_color || '#9cc0ab' }}
+              >
+                {p.after}
+              </p>
+
               <div className="mt-6 flex gap-2">
                 <button
                   onClick={() => {

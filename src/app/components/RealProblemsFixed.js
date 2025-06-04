@@ -63,9 +63,7 @@ export default function RealProblemsFixed() {
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import api from '../../../lib/axios';
-import dynamic from 'next/dynamic';
 
-// Custom hook to detect if it's a mobile device
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -107,25 +105,35 @@ export default function RealProblemsFixed() {
       </div>
 
       <div className="relative z-10 mt-20 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-12">
-        {problems.map(({ id, before, after, card_bg_color, text_color, font_family }, index) => (
+        {problems.map(({ id, before, after, card_bg_color, before_text_color, after_text_color, font_family }, index) => (
           <motion.div
             key={id}
             initial={isMobile ? false : { opacity: 0, y: 20 }}
             whileInView={isMobile ? false : { opacity: 1, y: 0 }}
             viewport={isMobile ? false : { once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
-            className={`rounded-3xl p-8 shadow-xl border border-white/10 transition-all duration-300 hover:shadow-[#9cc0ab]/20 
-              ${card_bg_color || 'bg-[#18181b]'} 
-              ${text_color || 'text-white'} 
-              ${font_family || 'font-sans'}`}
+            className={`rounded-3xl p-8 shadow-xl border border-white/10 transition-all duration-300 hover:shadow-[#9cc0ab]/20 ${font_family || 'font-sans'}`}
+            style={{
+              background: card_bg_color || 'linear-gradient(to bottom right, #18181b, #1f1f1f)',
+            }}
           >
             <div className="mb-6">
               <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Before</p>
-              <p className="text-sm italic leading-relaxed">{before}</p>
+              <p
+                className="text-sm italic leading-relaxed"
+                style={{ color: before_text_color || '#fca5a5' }}
+              >
+                {before}
+              </p>
             </div>
             <div>
               <p className="text-xs uppercase tracking-widest mb-1 opacity-60">After</p>
-              <p className="text-sm font-semibold leading-relaxed">{after}</p>
+              <p
+                className="text-sm font-semibold leading-relaxed"
+                style={{ color: after_text_color || '#9cc0ab' }}
+              >
+                {after}
+              </p>
             </div>
           </motion.div>
         ))}
@@ -133,5 +141,3 @@ export default function RealProblemsFixed() {
     </section>
   );
 }
-
-

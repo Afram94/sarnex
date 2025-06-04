@@ -23,7 +23,8 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
         before: '',
         after: '',
         card_bg_color: '#18181b',
-        text_color: '#ffffff',
+        before_text_color: '#fca5a5',  // red-300
+        after_text_color: '#9cc0ab',
         font_family: 'sans-serif',
       });
     }
@@ -35,22 +36,27 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (selected?.id) {
-      await api.put(`/problems/${selected.id}`, preview);
-    } else {
-      await api.post('/problems', preview);
+    try {
+      if (selected?.id) {
+        await api.put(`/problems/${selected.id}`, preview);
+      } else {
+        await api.post('/problems', preview);
+      }
+      onSave();
+      setPreview({
+        before: '',
+        after: '',
+        card_bg_color: '#18181b',
+        before_text_color: '#fca5a5',
+        after_text_color: '#9cc0ab',
+        font_family: 'sans-serif',
+      });
+    } catch (err) {
+      console.error('Submission failed:', err.response?.data || err.message);
+      alert('Error: ' + (err.response?.data?.message || 'Something went wrong.'));
     }
-
-    onSave();
-    setPreview({
-      before: '',
-      after: '',
-      card_bg_color: '#18181b',
-      text_color: '#ffffff',
-      font_family: 'sans-serif',
-    });
   };
+
 
   return (
     <form
@@ -61,7 +67,6 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
         {selected ? 'Edit Problem Card' : 'Create New Problem'}
       </h2>
 
-      {/* Text Inputs */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block mb-1 text-sm text-white/60">Before</label>
@@ -73,7 +78,7 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
             placeholder="What was the problem?"
             className="w-full bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#00f7ff]"
             style={{
-              color: preview.text_color,
+              color: preview.before_text_color,
               fontFamily: preview.font_family,
             }}
             required
@@ -90,7 +95,7 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
             placeholder="How did you solve it?"
             className="w-full bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-[#00f7ff]"
             style={{
-              color: preview.text_color,
+              color: preview.after_text_color,
               fontFamily: preview.font_family,
             }}
             required
@@ -98,22 +103,30 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
         </div>
       </div>
 
-      {/* Color Pickers */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="space-y-6">
+        {/* Card Background */}
         <CustomColorPicker
           label="Card Background"
           value={preview.card_bg_color}
           onChange={(color) => setPreview({ ...preview, card_bg_color: color })}
         />
 
-        <CustomColorPicker
-          label="Text Color"
-          value={preview.text_color}
-          onChange={(color) => setPreview({ ...preview, text_color: color })}
-        />
+        {/* Before + After Color Pickers side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CustomColorPicker
+            label="Before Text Color"
+            value={preview.before_text_color}
+            onChange={(color) => setPreview({ ...preview, before_text_color: color })}
+          />
+
+          <CustomColorPicker
+            label="After Text Color"
+            value={preview.after_text_color}
+            onChange={(color) => setPreview({ ...preview, after_text_color: color })}
+          />
+        </div>
       </div>
 
-      {/* Font Dropdown */}
       <div>
         <label className="block mb-1 text-sm text-white/60">Font Family</label>
         <select
@@ -130,7 +143,6 @@ export default function ProblemForm({ selected, onSave, onCancel, preview, setPr
         </select>
       </div>
 
-      {/* Submit + Cancel */}
       <div className="flex gap-4 pt-4">
         <button
           type="submit"
