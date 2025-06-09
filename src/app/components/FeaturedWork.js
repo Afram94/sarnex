@@ -4,11 +4,11 @@ import ProjectCard from './ProjectCard';
 
 const featuredProjects = [
   {
-    title: 'Yoga Bloom Studio',
-    description: 'Elegant design for a local yoga studio.',
-    image: '/sarnex_logo_navbar.png',
-    gallery: ['/sarnex_logo_navbar.png'],
-    url: 'https://yogabloomstudio.com',
+    title: 'Yolo',
+    description: 'Premium candy with inspiring messages, designed for hotels, cafés, events, and weddings.',
+    image: '/yolo_project_1.png',
+    gallery: ['/yolo-project-2.png', '/yolo-project-3.png', '/yolo-project-4.png'],
+    url: 'https://yolo.se',
     gradient: 'from-green-400/20 to-emerald-500/30',
   },
   {
@@ -36,7 +36,7 @@ export default function FeaturedWork() {
       <div className="pointer-events-none absolute inset-0 z-0 before:absolute before:inset-0 before:animate-spotlight before:bg-[radial-gradient(ellipse_at_center,_rgba(156,192,171,0.1)_0%,_transparent_70%)] before:bg-[length:300%_300%]" />
 
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-brand-green relative z-10">
-        Featured Work
+        Our Work
       </h2>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto relative z-10">

@@ -56,7 +56,8 @@ export default function AnimatedProcessSlider() {
   }, []);
 
   return (
-    <section ref={ref} className="relative h-[500vh] text-white">
+    <section ref={ref} className="relative h-[200vh] text-white">
+
       <div className="animated-gradient">
         {/* Sticky content */}
         <div className="sticky top-0 h-screen flex items-center justify-center">
