@@ -14,10 +14,10 @@ export default function ContactPage() {
           transition={{ duration: 0.8 }}
           className="text-5xl md:text-6xl font-serif font-bold text-brand-green mb-4"
         >
-          Let's Connect
+          Låt oss höras
         </motion.h1>
         <p className="max-w-xl mx-auto text-lg md:text-xl text-beige/80">
-          Have a project in mind or just want to ask something? Drop me a message and I’ll get back to you as soon as possible.
+          Har du ett projekt på gång eller en fråga? Skicka ett meddelande så hör jag av mig snarast.
         </p>
       </section>
 
@@ -26,7 +26,7 @@ export default function ContactPage() {
           <div className="flex justify-center mb-8">
             <Image
               src="/DIGITAL.png"
-              alt="Contact Logo"
+              alt="Kontaktlogotyp"
               width={250}
               height={250}
               className="opacity-90"
@@ -35,37 +35,37 @@ export default function ContactPage() {
           <form className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm text-beige mb-1">
-                Name
+                Namn
               </label>
               <input
                 id="name"
                 type="text"
                 className="w-full px-4 py-2 bg-army border border-beige/30 text-beige rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green"
-                placeholder="Your full name"
+                placeholder="Ditt fullständiga namn"
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm text-beige mb-1">
-                Email
+                E-post
               </label>
               <input
                 id="email"
                 type="email"
                 className="w-full px-4 py-2 bg-army border border-beige/30 text-beige rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green"
-                placeholder="you@example.com"
+                placeholder="du@example.com"
               />
             </div>
 
             <div>
               <label htmlFor="message" className="block text-sm text-beige mb-1">
-                Message
+                Meddelande
               </label>
               <textarea
                 id="message"
                 rows={5}
                 className="w-full px-4 py-2 bg-army border border-beige/30 text-beige rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green"
-                placeholder="Tell me about your project or ask a question..."
+                placeholder="Berätta om ditt projekt eller ställ en fråga..."
               ></textarea>
             </div>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
               type="submit"
               className="bg-brand-green text-hunter font-semibold px-6 py-3 rounded-xl hover:bg-brand-green/90 transition"
             >
-              Send Message
+              Skicka meddelande
             </button>
           </form>
         </div>

@@ -70,10 +70,10 @@ export default function FeaturesGrid({ features = [] }) {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-bold text-brand-green"
         >
-          Built to Empower. Designed to Convert.
+          Byggd för att ge kraft. Designad för att konvertera.
         </motion.h2>
         <p className="text-beige/80 mt-4 text-base md:text-lg">
-          From powerful dashboards to full design control — every feature is built to give you clarity, control, and confidence in your digital presence.
+          Från kraftfulla dashboards till full designkontroll – varje funktion ger dig tydlighet, kontroll och självförtroende online.
         </p>
       </div>
 

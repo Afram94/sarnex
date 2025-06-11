@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function AnimatedWordsSwap() {
-  const words = ['Perform', 'Convert', 'Scale', 'Grow', 'Lead']
+  const words = ['presterar', 'konverterar', 'skalar', 'växer', 'leder']
   const [index, setIndex] = useState(0)
 
   useEffect(() => {

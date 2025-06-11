@@ -11,24 +11,24 @@ export default function Footer() {
         <div>
           <h4 className="text-brand-green text-lg font-bold mb-4">Sarnex Digital</h4>
           <p className="text-beige/80">
-            We craft stunning, customizable websites for small businesses — combining elegant design with admin control and SEO power.
+            Vi skapar imponerande, anpassningsbara webbplatser för småföretag – med snygg design, adminkontroll och SEO-styrka.
           </p>
         </div>
 
         {/* Column 2 */}
         <div>
-          <h4 className="text-brand-green text-lg font-bold mb-4">Pages</h4>
+          <h4 className="text-brand-green text-lg font-bold mb-4">Sidor</h4>
           <ul className="space-y-2">
-            <li><Link href="/" className="hover:text-brand-green transition">Home</Link></li>
-            <li><Link href="/features" className="hover:text-brand-green transition">Features</Link></li>
-            <li><Link href="/pricing" className="hover:text-brand-green transition">Pricing</Link></li>
-            <li><Link href="/contact" className="hover:text-brand-green transition">Contact</Link></li>
+            <li><Link href="/" className="hover:text-brand-green transition">Hem</Link></li>
+            <li><Link href="/features" className="hover:text-brand-green transition">Funktioner</Link></li>
+            <li><Link href="/pricing" className="hover:text-brand-green transition">Priser</Link></li>
+            <li><Link href="/contact" className="hover:text-brand-green transition">Kontakt</Link></li>
           </ul>
         </div>
 
         {/* Column 3 */}
         <div>
-          <h4 className="text-brand-green text-lg font-bold mb-4">Get in Touch</h4>
+          <h4 className="text-brand-green text-lg font-bold mb-4">Kontakta oss</h4>
           <ul className="space-y-3">
             <li className="flex items-center gap-2">
               <FaEnvelope className="text-brand-green" />
@@ -47,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="mt-12 border-t border-beige/20 pt-6 text-center text-beige/60 text-xs">
-        <p>© {new Date().getFullYear()} Sarnex Digital. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Sarnex Digital. Alla rättigheter förbehållna.</p>
       </div>
     </footer>
   );

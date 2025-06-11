@@ -23,7 +23,7 @@ export default function LoginPage() {
       await login(form);
       router.push('/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      setError('Fel e-post eller lösenord');
     } finally {
       setLoading(false);
     }
@@ -32,7 +32,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg">
-        <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Login to your account</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Logga in på ditt konto</h1>
 
         {error && (
           <div className="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded-md border border-red-300">
@@ -42,7 +42,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
+            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">E-post</label>
             <input
               id="email"
               name="email"
@@ -57,7 +57,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">Lösenord</label>
             <input
               id="password"
               name="password"
@@ -75,7 +75,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-md transition duration-200 disabled:opacity-50"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Loggar in...' : 'Logga in'}
           </button>
         </form>
       </div>

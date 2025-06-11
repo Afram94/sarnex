@@ -7,10 +7,10 @@ import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const navLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'Features', href: '/features' },
-  { name: 'Pricing', href: '/pricing' },
-  { name: 'About us', href: '/about' },
+  { name: 'Hem', href: '/' },
+  { name: 'Funktioner', href: '/features' },
+  { name: 'Priser', href: '/pricing' },
+  { name: 'Om oss', href: '/about' },
 ]
 
 export default function Navbar() {
@@ -37,7 +37,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center">
           <Image
             src="/DIGITAL.png"
-            alt="Sarnex Logo"
+            alt="Sarnex-logotyp"
             width={120}
             height={60}
             className="object-contain"
@@ -67,7 +67,7 @@ export default function Navbar() {
             href="/contact"
             className="text-sm font-semibold px-5 py-2 border border-brand-green text-brand-green rounded-md hover:bg-brand-green/10 transition"
           >
-            Contact
+            Kontakt
           </Link>
         </div>
 
@@ -107,7 +107,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="block mt-4 text-center text-sm font-semibold px-4 py-2 border border-brand-green text-brand-green rounded-md hover:bg-brand-green/10 transition"
             >
-              Contact
+              Kontakt
             </Link>
           </motion.div>
         )}
