@@ -4,8 +4,16 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
+import { RotateCcw } from 'lucide-react';
 
 const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+function formatDate(rawDate) {
+  const year = rawDate.slice(0, 4);
+  const month = rawDate.slice(4, 6);
+  const day = rawDate.slice(6, 8);
+  return `${year}-${month}-${day}`;
+}
 
 export default function DashboardPage() {
   const [summary, setSummary] = useState(null);
@@ -13,98 +21,129 @@ export default function DashboardPage() {
   const [topPages, setTopPages] = useState([]);
   const [countries, setCountries] = useState([]);
   const [theme, setTheme] = useState('light');
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchAnalytics = async () => {
+    setLoading(true);
+    try {
+      const [summaryRes, trendRes, pagesRes, realtimeRes] = await Promise.all([
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/summary`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/trend`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/top-pages`),
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/realtime`),
+      ]);
+
+      setSummary(summaryRes.data.summary);
+      setTrend(trendRes.data.trend);
+      setTopPages(pagesRes.data.topPages);
+      setCountries(realtimeRes.data.active_users_realtime);
+      setLastUpdated(new Date().toLocaleTimeString());
+    } catch (err) {
+      console.error('Error fetching analytics', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/summary`).then(res => setSummary(res.data.summary));
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/trend`).then(res => setTrend(res.data.trend));
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/top-pages`).then(res => setTopPages(res.data.topPages));
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/analytics/realtime`).then(res => setCountries(res.data.active_users_realtime));
+    fetchAnalytics();
+    const interval = setInterval(fetchAnalytics, 150000); // refresh every 2.5 minutes
 
-    // Watch for theme changes via class on <html>
     const observer = new MutationObserver(() => {
-      if (document.documentElement.classList.contains('dark')) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
+      setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
     });
-
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
+
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
   }, []);
 
   return (
     <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Dashboard Overview</h1>
+      <div className="mb-6 flex justify-between items-center">
+        <h1 className="text-3xl font-bold">Analytics Overview</h1>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Last updated: {lastUpdated}</p>
+          <button
+            onClick={fetchAnalytics}
+            disabled={loading}
+            className="inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline disabled:opacity-50"
+          >
+            <RotateCcw size={16} className={loading ? 'animate-spin' : ''} /> Refresh
+          </button>
+        </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         {summary && (
           <>
-            <SummaryCard label="Sessions" value={summary.sessions} />
-            <SummaryCard label="Page Views" value={summary.pageViews} />
-            <SummaryCard label="Avg. Session Duration" value={summary.avgSessionDuration} />
+            <SummaryCard label="Sessions" value={summary.sessions} description="User visits. 1 person browsing counts as 1 session." />
+            <SummaryCard label="Page Views" value={summary.pageViews} description="Number of page loads including refreshes." />
+            <SummaryCard label="Avg. Session Duration" value={summary.avgSessionDuration} description="Avg time spent per session." />
+            <SummaryCard label="Event Count" value={summary.eventCount} description="Total number of triggered events." />
+            <SummaryCard label="New Users" value={summary.newUsers} description="First-time visitors in the selected period." />
           </>
         )}
       </div>
 
-      {/* Trend Chart */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
-        <h2 className="text-lg font-semibold mb-4">Active Users Trend</h2>
-        {trend.length > 0 && (
-          <ApexChart
-            type="line"
-            height={300}
-            series={[{
-              name: 'Active Users',
-              data: trend.map(t => t.users),
-            }]}
-            options={{
-              chart: { id: 'trend-line', background: 'transparent' },
-              xaxis: { categories: trend.map(t => t.date), labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
-              yaxis: { labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
-              tooltip: { theme },
-              stroke: { curve: 'smooth' },
-              theme: { mode: theme },
-              colors: ['#6366f1']
-            }}
-          />
-        )}
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Active Users Trend</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Users visiting per day for the past 7 days.</p>
+          {trend.length > 0 && (
+            <ApexChart
+              type="line"
+              height={300}
+              series={[{ name: 'Active Users', data: trend.map(t => t.users) }]}
+              options={{
+                chart: { background: 'transparent' },
+                xaxis: {
+                  categories: trend.map(t => formatDate(t.date)),
+                  labels: {
+                    style: {
+                      colors: theme === 'dark' ? '#d1d5db' : '#374151',
+                    },
+                  },
+                  axisBorder: { show: false },
+                  axisTicks: { show: false },
+                },
+                yaxis: { labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
+                tooltip: { theme },
+                stroke: { curve: 'smooth' },
+                theme: { mode: theme },
+                colors: ['#6366f1']
+              }}
+            />
+          )}
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Active Users by Country (Realtime)</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Realtime active users split by country.</p>
+          {countries.length > 0 && (
+            <ApexChart
+              type="bar"
+              height={300}
+              series={[{ name: 'Users', data: countries.map(c => c.users) }]}
+              options={{
+                chart: { background: 'transparent' },
+                xaxis: { categories: countries.map(c => c.country), labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
+                yaxis: { labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
+                tooltip: { theme },
+                theme: { mode: theme },
+                colors: ['#10b981']
+              }}
+            />
+          )}
+        </div>
       </div>
 
-      {/* Top Countries Bar Chart */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
-        <h2 className="text-lg font-semibold mb-4">Top Countries (Realtime)</h2>
-        {countries.length > 0 && (
-          <ApexChart
-            type="bar"
-            height={300}
-            series={[{
-              name: 'Users',
-              data: countries.map(c => c.users),
-            }]}
-            options={{
-              chart: { id: 'top-countries', background: 'transparent' },
-              xaxis: {
-                categories: countries.map(c => c.country),
-                labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } }
-              },
-              yaxis: {
-                labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } }
-              },
-              tooltip: { theme },
-              theme: { mode: theme },
-              colors: ['#10b981'],
-            }}
-          />
-        )}
-      </div>
-
-      {/* Top Pages Table */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
         <h2 className="text-lg font-semibold mb-4">Top Pages</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Most visited pages in the last 30 days.</p>
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-gray-500 dark:text-gray-400 border-b">
@@ -134,11 +173,12 @@ export default function DashboardPage() {
   );
 }
 
-function SummaryCard({ label, value }) {
+function SummaryCard({ label, value, description }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4">
       <h3 className="text-sm text-gray-500 dark:text-gray-300">{label}</h3>
       <p className="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mt-1">{value}</p>
+      <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">{description}</p>
     </div>
   );
 }

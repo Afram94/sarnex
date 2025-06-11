@@ -94,7 +94,7 @@ export default function PricingClient() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-hunter border border-beige/20 rounded-2xl p-8 shadow-xl text-left hover:shadow-2xl transition-shadow transition-colors duration-300 ease-in-out"
+                className="bg-hunter border border-beige/20 rounded-2xl p-8 shadow-xl text-left hover:shadow-2xl transition-colors duration-300 ease-in-out"
               >
                 <h3 className="text-2xl font-semibold text-brand-green mb-3">
                   {plan.title}
