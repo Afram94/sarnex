@@ -11,8 +11,8 @@ export default function VisualAdminPanelPage({ feature }) {
         <p className="text-beige">{feature.description}</p>
 
         <div className="mt-10 p-6 bg-white/10 rounded-2xl shadow-xl">
-          <h2 className="text-xl font-bold mb-2 text-white">Editor Preview</h2>
-          <p className="text-beige/80">Fast and easy-to-use visual editor included.</p>
+          <h2 className="text-xl font-bold mb-2 text-white">Redigeringsvy</h2>
+          <p className="text-beige/80">Snabbt och lättanvänt visuellt redigeringsverktyg ingår.</p>
         </div>
       </section>
     </MainLayout>

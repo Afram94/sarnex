@@ -15,10 +15,10 @@ export default function AboutPage() {
           transition={{ duration: 0.8 }}
           className="text-6xl md:text-7xl font-serif font-extrabold mb-8 text-brand-green drop-shadow-lg"
         >
-          Our Story
+          Vår berättelse
         </motion.h1>
         <p className="max-w-3xl mx-auto text-xl md:text-2xl text-beige/90 leading-relaxed">
-          Sarnex Digital isn’t just a web agency — it’s a design-driven rebellion. We empower small businesses with custom, beautiful, fully-controllable websites that are made to convert and inspire.
+          Sarnex Digital är inte bara en webbyrå – det är ett designdrivet uppror. Vi ger småföretag kraft med skräddarsydda, vackra och helt kontrollerbara webbplatser som konverterar och inspirerar.
         </p>
       </section>
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
           className="relative z-10 space-y-12 max-w-4xl mx-auto"
         >
           <blockquote className="text-3xl md:text-4xl italic font-medium text-brand-green">
-            "We believe design is power. That control is freedom. And that every small business deserves to look like a big deal."
+            "Vi tror att design är makt. Att kontroll är frihet. Och att varje småföretag förtjänar att se ut som en storspelare."
           </blockquote>
         </motion.div>
       </section>
@@ -70,7 +70,7 @@ export default function AboutPage() {
           transition={{ duration: 1 }}
           className="text-3xl md:text-4xl italic font-medium max-w-5xl mx-auto leading-snug"
         >
-          "We don’t just build websites. We create identity, clarity, and opportunity for brands that want to grow."
+          "Vi bygger inte bara webbplatser. Vi skapar identitet, tydlighet och möjligheter för varumärken som vill växa."
         </motion.blockquote>
       </section>
     </div>
@@ -79,18 +79,18 @@ export default function AboutPage() {
 
 const timeline = [
   {
-    title: 'Where it began',
+    title: 'Början',
     description:
-      'Born from frustration with one-size-fits-all templates, Sarnex Digital was created to give businesses design-first platforms that reflect who they truly are.',
+      'Född ur frustrationen över generiska mallar skapades Sarnex Digital för att ge företag designförst-plattformar som speglar vilka de verkligen är.',
   },
   {
-    title: 'Craft before code',
+    title: 'Design före kod',
     description:
-      'We start with strategy and storytelling. Each interface is built not just to look great, but to resonate deeply and guide users effortlessly.',
+      'Vi börjar med strategi och berättande. Varje gränssnitt byggs inte bara för att se bra ut utan för att beröra på djupet och leda användaren rätt.',
   },
   {
-    title: 'Empowerment through control',
+    title: 'Styrka genom kontroll',
     description:
-      'We hand our clients the tools to shape their websites without devs. Full style and content control — no compromises.',
+      'Vi ger våra kunder verktygen att forma sina webbplatser utan utvecklare. Full kontroll över stil och innehåll – inga kompromisser.',
   },
 ];

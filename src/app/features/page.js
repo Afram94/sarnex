@@ -4,8 +4,8 @@ import FeaturesListServer from '../components/FeaturesListServer';
 import MainLayout from '../components/MainLayout';
 
 export const metadata = {
-  title: 'Features | Sarnex Digital',
-  description: 'Explore the powerful features built into every Sarnex Digital website.',
+  title: 'Funktioner | Sarnex Digital',
+  description: 'Utforska de kraftfulla funktionerna som finns i varje Sarnex Digital-webbplats.',
 };
 
 export default function FeaturesPage() {

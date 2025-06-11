@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const projects = [
   {
     title: 'Yoga Bloom Studio',
-    description: 'Elegant design for a local yoga studio.',
+    description: 'Elegant design för en lokal yogastudio.',
     image: '/projects/yoga-bloom.png',
     gallery: ['/projects/yoga-bloom.png'],
     url: 'https://yogabloomstudio.com',
@@ -14,7 +14,7 @@ const projects = [
   },
   {
     title: 'Craft Coffee Co.',
-    description: 'Modern site for an artisanal coffee brand.',
+    description: 'Modern webbplats för ett hantverkskaffevarumärke.',
     image: '/projects/craft-coffee.png',
     gallery: ['/projects/craft-coffee.png'],
     url: 'https://craftcoffeeco.com',
@@ -22,7 +22,7 @@ const projects = [
   },
   {
     title: 'TechLabs AI',
-    description: 'Clean, powerful SaaS website with animations.',
+    description: 'Ren och kraftfull SaaS-sajt med animationer.',
     image: '/DIGITAL.png',
     gallery: ['/DIGITAL.png'],
     url: 'https://techlabs.ai',
@@ -41,7 +41,7 @@ export default function OurWorkPage() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-4xl md:text-6xl font-extrabold text-brand-green drop-shadow-glow"
         >
-          Our Work
+          Våra projekt
         </motion.h1>
 
         <motion.p
@@ -50,7 +50,7 @@ export default function OurWorkPage() {
           transition={{ delay: 0.3, duration: 0.8 }}
           className="text-lg md:text-xl text-gray-300 mt-4 max-w-2xl"
         >
-          A collection of custom-built websites designed to convert, scale, and impress.
+          Ett urval av skräddarsydda webbplatser skapade för att konvertera, skala och imponera.
         </motion.p>
 
         {/* Subtle dividing border */}

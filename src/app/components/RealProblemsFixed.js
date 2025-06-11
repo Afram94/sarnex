@@ -26,10 +26,11 @@ export default function RealProblemsFixed() {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl sm:text-5xl font-bold font-mono text-[#9cc0ab]">
-          You Deserve Better
+          Du förtjänar bättre
         </h2>
         <p className="mt-6 text-white/70 text-lg">
-          Real problems small businesses face — solved with modern web design.
+          Verkliga problem som småföretag står inför – lösta med modern
+          webbdesign.
         </p>
       </div>
 
@@ -44,11 +45,11 @@ export default function RealProblemsFixed() {
             className="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-white/10 rounded-3xl p-8 shadow-xl hover:shadow-[#9cc0ab]/20 transition-colors duration-300"
           >
             <div className="mb-6">
-              <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Before</p>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Före</p>
               <p className="text-base italic text-red-300 leading-relaxed">{before}</p>
             </div>
             <div>
-              <p className="text-xs text-white/50 uppercase tracking-widest mb-1">After</p>
+              <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Efter</p>
               <p className="text-lg text-[#9cc0ab] font-semibold leading-relaxed">{after}</p>
             </div>
           </motion.div>
@@ -104,11 +105,11 @@ export default function RealProblemsFixed() {
             }}
           >
             <div className="mb-6">
-              <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Before</p>
+              <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Före</p>
               <p className="text-sm italic leading-relaxed">{before}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-widest mb-1 opacity-60">After</p>
+              <p className="text-xs uppercase tracking-widest mb-1 opacity-60">Efter</p>
               <p className="text-sm font-semibold leading-relaxed">{after}</p>
             </div>
           </motion.div>

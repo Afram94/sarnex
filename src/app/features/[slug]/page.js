@@ -26,8 +26,8 @@ export async function generateMetadata({ params }) {
 
   if (!feature) {
     return {
-      title: 'Feature | Sarnex Digital',
-      description: 'Explore a feature from Sarnex Digital.',
+      title: 'Funktion | Sarnex Digital',
+      description: 'Utforska en funktion från Sarnex Digital.',
     };
   }
 

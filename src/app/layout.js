@@ -12,23 +12,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Sarnex Digital | Custom Websites for Small Businesses",
+  title: "Sarnex Digital | Skr\u00e4ddarsydda webbplatser f\u00f6r sm\u00e5f\u00f6retag",
   description:
-    "Sarnex Digital builds tailored websites for small businesses — custom designs, advanced admin control, built-in SEO, and powerful analytics. Host your site with us.",
+    "Sarnex Digital bygger skr\u00e4ddarsydda webbplatser f\u00f6r sm\u00e5f\u00f6retag – avancerad adminkontroll, inbyggd SEO och kraftfull analys.",
   keywords: [
     "Sarnex Digital",
-    "custom websites",
-    "small business websites",
-    "SEO websites",
-    "website analytics",
-    "Next.js agency",
+    "skr\u00e4ddarsydda webbplatser",
+    "sm\u00e5f\u00f6retag",
+    "SEO",
+    "webbplatsanalys",
+    "Next.js-byr\u00e5",
   ],
   authors: [{ name: "Sarnex Digital", url: "https://sarnexdigital.se" }],
   metadataBase: new URL("https://sarnexdigital.se"),
   openGraph: {
-    title: "Sarnex Digital | Custom Websites for Small Businesses",
+    title: "Sarnex Digital | Skr\u00e4ddarsydda webbplatser f\u00f6r sm\u00e5f\u00f6retag",
     description:
-      "Tailored websites with full admin control, built-in SEO, and analytics — by Sarnex Digital.",
+      "Skr\u00e4ddarsydda webbplatser med full adminkontroll, inbyggd SEO och analys fr\u00e5n Sarnex Digital.",
     url: "https://sarnexdigital.se",
     siteName: "Sarnex Digital",
     images: [
@@ -39,23 +39,23 @@ export const metadata = {
         alt: "Sarnex Digital - Hero Image",
       },
     ],
-    locale: "en_US",
+    locale: "sv_SE",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sarnex Digital | Custom Websites for Small Businesses",
+    title: "Sarnex Digital | Skr\u00e4ddarsydda webbplatser f\u00f6r sm\u00e5f\u00f6retag",
     description:
-      "Custom-designed websites with complete control and built-in SEO. Launch your small business site with Sarnex Digital.",
+      "Skr\u00e4ddarsydd design med full kontroll och inbyggd SEO. Lansera ditt sm\u00e5f\u00f6retags webbplats med Sarnex Digital.",
     images: ["/DIGITAL.png"],
-    creator: "@sarnexdigital", // Optional: replace with your real handle
+    creator: "@sarnexdigital",
   },
   /* themeColor: "#0e1c16", */
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="sv" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head />
       <body className="antialiased bg-brand text-white min-h-screen">
         {children}

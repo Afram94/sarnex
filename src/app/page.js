@@ -7,17 +7,18 @@ import RealProblemsFixed from './components/RealProblemsFixed'
 import FeaturesGrid from './components/FeaturesGrid'
 import AnimatedProcessScroll from './components/AnimatedProcessScroll'
 import FeaturedWork from './components/FeaturedWork'
+import FAQSection from './components/FAQSection'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedWordsSwap from './components/AnimatedWordsSwap'
 import FeaturesListClient from './components/FeaturesListClient';
 
 // ✅ Typewriter Text
 const messages = [
-  'Websites that rank. And convert.',
-  'Design, SEO, control — all yours.',
-  'No templates. Just custom builds.',
-  'Admin dashboards you’ll love.',
-  'Scale your site, effortlessly.',
+  'Webbplatser som rankar och konverterar.',
+  'Design, SEO och kontroll – allt ditt.',
+  'Inga mallar. Bara skräddarsydd kod.',
+  'Administrationspaneler du kommer älska.',
+  'Skala din sida utan krångel.',
 ]
 
 function TypewriterText() {
@@ -89,9 +90,9 @@ export default function HomePage() {
 
           <div className="z-10">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-center text-[#d7eae1] leading-tight mb-10">
-              <div>We build Custom Websites</div>
+              <div>Vi bygger skräddarsydda webbplatser</div>
               <div className="flex justify-center items-baseline gap-2 mt-2">
-                <span className="whitespace-nowrap">That</span>
+                <span className="whitespace-nowrap">som</span>
                 <span className="inline-block min-w-[120px] text-left">
                   <AnimatedWordsSwap />
                 </span>
@@ -105,13 +106,13 @@ export default function HomePage() {
                 href="#features"
                 className="bg-[#9cc0ab] hover:bg-[#85a893] text-black font-semibold px-6 py-3 rounded-lg transition"
               >
-                See Features
+                Se funktioner
               </a>
               <a
                 href="#contact"
                 className="border border-white/30 hover:bg-white/10 px-6 py-3 rounded-lg transition"
               >
-                Book a Call
+                Boka ett möte
               </a>
             </div>
           </div>
@@ -122,6 +123,7 @@ export default function HomePage() {
         <div className="scroll-section"><FeaturesListClient /></div>
         <div className="scroll-section"><AnimatedProcessScroll /></div>
         <div className="scroll-section"><FeaturedWork /></div>
+        <div className="scroll-section"><FAQSection /></div>
         <div className="scroll-section"><CallToActionRoadmap /></div>
       </main>
     </MainLayout>
