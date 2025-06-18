@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import api from '../../../../lib/axios'; // your axios instance with auth token
-import VisualAdminPanelPage from '../../components/features/VisualAdminPanelPage';
-import GlobalStylingSystemPage from '../../components/features/GlobalStylingSystemPage';
+import VisualAdminPanelPage from '../../components/features/pages/VisualAdminPanelPage';
+import GlobalStylingSystemPage from '../../components/features/pages/GlobalStylingSystemPage';
 
 // Mark route as dynamic (for params slug support)
 export const dynamic = 'force-dynamic';

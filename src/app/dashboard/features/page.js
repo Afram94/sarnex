@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import api from '../../../../lib/axios';
-import FeatureForm from '../../components/FeatureForm';
-import FeatureCard from '../../components/FeatureCard';
+import FeatureForm from '../../components/features/FeatureForm';
+import FeatureCard from '../../components/features/FeatureCard';
+
+const DEFAULT_STYLE = {
+  font_family: 'sans-serif',
+  text_color: '#d9ead3',         // beige-like text
+  card_bg_color: 'rgba(255,255,255,0.05)', // matches bg-beige/5
+};
 
 export default function FeaturesPage() {
   const [features, setFeatures] = useState([]);
@@ -13,14 +19,12 @@ export default function FeaturesPage() {
     title: '',
     subtitle: '',
     description: '',
-    font_family: 'sans-serif',
-    text_color: '#ffffff',
-    card_bg_color: '#18181b',
     image_url: '',
     image: null,
+    ...DEFAULT_STYLE,
   });
 
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(''); // ✅ This is critical for preview
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('');
 
   const fetchFeatures = async () => {
     const res = await api.get('/features');
@@ -31,34 +35,49 @@ export default function FeaturesPage() {
     fetchFeatures();
   }, []);
 
+  const resetFormState = () => {
+    setSelected(null);
+    setPreview({
+      title: '',
+      subtitle: '',
+      description: '',
+      image_url: '',
+      image: null,
+      ...DEFAULT_STYLE,
+    });
+    setImagePreviewUrl('');
+  };
+
   return (
     <div className="space-y-10">
       <div className="grid md:grid-cols-2 gap-8">
-        {/* ✅ Form component */}
+        {/* 🧩 Form (Create or Edit) */}
         <FeatureForm
           selected={selected}
           preview={preview}
           setPreview={setPreview}
           imagePreviewUrl={imagePreviewUrl}
           setImagePreviewUrl={setImagePreviewUrl}
-          onSave={fetchFeatures}
-          onCancel={() => {
-            setSelected(null);
-            setImagePreviewUrl('');
+          onSave={() => {
+            fetchFeatures();
+            resetFormState();
           }}
+          onCancel={resetFormState}
         />
 
-        {/* ✅ Live Preview Card — inject imagePreviewUrl for real-time blob/URL preview */}
-        <FeatureCard
-          feature={{
-            ...preview,
-            image_url: imagePreviewUrl || preview.image_url,
-          }}
-        />
+        {/* 🧩 Preview Card */}
+        <div className="rounded-2xl overflow-hidden bg-gradient-to-b from-hunter via-army to-[#1f3529] p-6">
+          <FeatureCard
+            feature={{
+              ...preview,
+              image_url: imagePreviewUrl || preview.image_url,
+            }}
+          />
+        </div>
       </div>
 
-      {/* ✅ Saved cards list */}
-      <div className="bg-zinc-900 border border-white/10 p-6 rounded-2xl shadow-xl">
+      {/* 🧩 List of Saved Cards */}
+      <div className="bg-gradient-to-b from-hunter via-army to-[#1f3529] border border-white/10 p-6 rounded-2xl shadow-xl">
         <h2 className="text-2xl font-semibold text-white mb-6">All Features</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -68,7 +87,10 @@ export default function FeaturesPage() {
               feature={feature}
               onEdit={(f) => {
                 setSelected(f);
-                setPreview(f);
+                setPreview({
+                  ...f,
+                  image: null,
+                });
                 setImagePreviewUrl(f.image_url || '');
               }}
               onDelete={async (id) => {

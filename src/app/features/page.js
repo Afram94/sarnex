@@ -1,6 +1,6 @@
 // app/features/page.js
 
-import FeaturesListServer from '../components/FeaturesListServer';
+import FeaturesListServer from '../components/features/FeaturesListServer';
 import MainLayout from '../components/MainLayout';
 
 export const metadata = {

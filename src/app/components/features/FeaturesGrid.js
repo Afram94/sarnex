@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import FeatureCard from './FeatureCard'; // ✅ use the one with design + styles
 import Tilt from 'react-parallax-tilt';
 import Link from 'next/link';
 
@@ -40,7 +41,7 @@ export default function FeaturesGrid({ features = [] }) {
       className="relative bg-gradient-to-b from-hunter via-army to-[#1f3529] py-40 px-6 overflow-hidden w-full"
       ref={containerRef}
     >
-      {/* Moving dashed lines */}
+      {/* Connecting lines */}
       <svg className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         {features.slice(0, -1).map((fromFeature, i) => {
           const from = fromFeature.id;
@@ -77,9 +78,101 @@ export default function FeaturesGrid({ features = [] }) {
         </p>
       </div>
 
-      {/* Feature Cards */}
+      {/* Dynamic Feature Cards */}
       <div className="relative z-20 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
-        {features.map(({ id, title, subtitle, description, image_url, slug }, index) => (
+        {features.map((feature, index) => (
+          <Link href={`/features/${feature.slug}`} key={feature.id} className="block">
+            <Tilt
+              tiltMaxAngleX={1}
+              tiltMaxAngleY={1}
+              glareEnable
+              glareMaxOpacity={0.08}
+              scale={1.005}
+              transitionSpeed={300}
+            >
+
+              <motion.div
+                data-id={feature.id}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+              >
+                <FeatureCard feature={feature} />
+              </motion.div>
+            </Tilt>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+
+
+
+
+/* 'use client';
+
+import { motion } from 'framer-motion';
+import Tilt from 'react-parallax-tilt';
+import Link from 'next/link';
+
+const hardcodedFeatures = [
+  {
+    id: 1,
+    title: 'Visual Admin Panel',
+    subtitle: 'Edit Without Code',
+    description: 'Change content, layout, and components instantly through our intuitive editor.',
+    image_url: '',
+    slug: 'visual-admin-panel',
+  },
+  {
+    id: 2,
+    title: 'Global Styling System',
+    subtitle: 'Control Your Brand',
+    description: 'Tweak typography, colors, spacing, and more across your site in real-time.',
+    image_url: '',
+    slug: 'global-styling-system',
+  },
+  {
+    id: 3,
+    title: 'Realtime Analytics',
+    subtitle: 'Insights That Matter',
+    description: 'Monitor visitors, engagement, and performance with built-in dashboards.',
+    image_url: '',
+    slug: 'realtime-analytics',
+  },
+  {
+    id: 4,
+    title: 'Edge Hosting Platform',
+    subtitle: 'Speed & Reliability',
+    description: 'Global CDN, SSL, and autoscaling keep your site fast and always online.',
+    image_url: '',
+    slug: 'edge-hosting-platform',
+  },
+];
+
+export default function HardcodedFeatureCards() {
+  return (
+    <section className="relative bg-gradient-to-b from-hunter via-army to-[#1f3529] py-40 px-6 overflow-hidden w-full">
+      <div className="text-center max-w-3xl mx-auto mb-24 relative z-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-4xl md:text-5xl font-bold text-brand-green"
+        >
+          Built to Empower. Designed to Convert.
+        </motion.h2>
+        <p className="text-beige/80 mt-4 text-base md:text-lg">
+          From powerful dashboards to full design control — every feature is built to give you clarity, control, and confidence in your digital presence.
+        </p>
+      </div>
+
+      <div className="relative z-20 w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-16">
+        {hardcodedFeatures.map(({ id, title, subtitle, description, image_url, slug }, index) => (
           <Link href={`/features/${slug}`} key={id} className="block">
             <Tilt
               tiltMaxAngleX={10}
@@ -127,9 +220,7 @@ export default function FeaturesGrid({ features = [] }) {
       </div>
     </section>
   );
-}
-
-
+} */
 
 
 

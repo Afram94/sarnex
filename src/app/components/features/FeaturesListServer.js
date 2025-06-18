@@ -3,7 +3,7 @@
 
 // components/FeaturesListServer.js
 import FeaturesGrid from './FeaturesGrid';
-import api from '../../../lib/axios';
+import api from '../../../../lib/axios';
 
 export default async function FeaturesListServer() {
   let features = [];

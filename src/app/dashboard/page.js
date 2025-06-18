@@ -1,4 +1,3 @@
-// app/dashboard/page.js
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -48,7 +47,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchAnalytics();
-    const interval = setInterval(fetchAnalytics, 150000); // refresh every 2.5 minutes
+    const interval = setInterval(fetchAnalytics, 150000);
 
     const observer = new MutationObserver(() => {
       setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -62,22 +61,23 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="min-h-screen p-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-      <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Analytics Overview</h1>
-        <div className="flex items-center gap-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Last updated: {lastUpdated}</p>
+    <div className="min-h-screen">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <h1 className="text-2xl sm:text-3xl font-bold">Analytics Overview</h1>
+        <div className="flex items-center gap-4 text-sm">
+          <p className="text-gray-500 dark:text-gray-400">Last updated: {lastUpdated}</p>
           <button
             onClick={fetchAnalytics}
             disabled={loading}
-            className="inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline disabled:opacity-50"
+            className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:underline disabled:opacity-50"
           >
             <RotateCcw size={16} className={loading ? 'animate-spin' : ''} /> Refresh
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         {summary && (
           <>
             <SummaryCard label="Sessions" value={summary.sessions} description="User visits. 1 person browsing counts as 1 session." />
@@ -89,8 +89,9 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+      {/* Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 md:p-6">
           <h2 className="text-lg font-semibold mb-2">Active Users Trend</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Users visiting per day for the past 7 days.</p>
           {trend.length > 0 && (
@@ -120,7 +121,7 @@ export default function DashboardPage() {
           )}
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 md:p-6">
           <h2 className="text-lg font-semibold mb-2">Active Users by Country (Realtime)</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Realtime active users split by country.</p>
           {countries.length > 0 && (
@@ -130,7 +131,10 @@ export default function DashboardPage() {
               series={[{ name: 'Users', data: countries.map(c => c.users) }]}
               options={{
                 chart: { background: 'transparent' },
-                xaxis: { categories: countries.map(c => c.country), labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
+                xaxis: {
+                  categories: countries.map(c => c.country),
+                  labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } }
+                },
                 yaxis: { labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
                 tooltip: { theme },
                 theme: { mode: theme },
@@ -141,10 +145,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-        <h2 className="text-lg font-semibold mb-4">Top Pages</h2>
+      {/* Table */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 md:p-6 overflow-x-auto">
+        <h2 className="text-lg font-semibold mb-2">Top Pages</h2>
         <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Most visited pages in the last 30 days.</p>
-        <table className="w-full text-sm">
+        <table className="min-w-[600px] w-full text-sm">
           <thead>
             <tr className="text-left text-gray-500 dark:text-gray-400 border-b">
               <th className="pb-2">Page</th>
