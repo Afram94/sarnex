@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import MainLayout from '../app/components/MainLayout'
 import RealProblemsFixed from './components/RealProblemsFixed'
-import FeaturesGrid from './components/FeaturesGrid'
+import FeaturesGrid from './components/features/FeaturesGrid'
 import AnimatedProcessScroll from './components/AnimatedProcessScroll'
 import FeaturedWork from './components/FeaturedWork'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedWordsSwap from './components/AnimatedWordsSwap'
-import FeaturesListClient from './components/FeaturesListClient';
+import FeaturesListClient from './components/features/FeaturesListClient';
 
 const messages = [
   'Websites that rank. And convert.',

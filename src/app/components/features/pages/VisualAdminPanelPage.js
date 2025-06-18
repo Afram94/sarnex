@@ -1,6 +1,6 @@
 // components/features/VisualAdminPanelPage.js
 
-import MainLayout from '../MainLayout';
+import MainLayout from '../../MainLayout';
 
 export default function VisualAdminPanelPage({ feature }) {
   return (

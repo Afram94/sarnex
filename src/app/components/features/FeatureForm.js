@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import api from '../../../lib/axios';
-import CustomColorPicker from './CustomColorPicker';
+import api from '../../../../lib/axios';
+import CustomColorPicker from '../CustomColorPicker';
 import { X } from 'lucide-react';
 
 const fontOptions = [
@@ -15,6 +15,12 @@ const fontOptions = [
   'JetBrains Mono',
 ];
 
+const DEFAULT_STYLE = {
+  font_family: 'sans-serif',
+  text_color: '#d9ead3',         // matches text-beige
+  card_bg_color: 'rgba(255,255,255,0.05)', // matches bg-beige/5
+};
+
 export default function FeatureForm({
   selected,
   preview,
@@ -25,36 +31,45 @@ export default function FeatureForm({
   onCancel,
 }) {
   useEffect(() => {
-  if (selected) {
-    setPreview(selected);
-    setImagePreviewUrl(selected.image_url || '');
-  } else {
+    if (selected) {
+      setPreview({ ...selected, image: null });
+      setImagePreviewUrl(selected.image_url || '');
+    } else {
+      resetForm();
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    if (preview.image_url && !preview.image) {
+      setImagePreviewUrl(preview.image_url);
+    }
+  }, [preview.image_url]);
+
+  useEffect(() => {
+    if (preview.image instanceof File) {
+      const tempUrl = URL.createObjectURL(preview.image);
+      setImagePreviewUrl(tempUrl);
+    }
+  }, [preview.image]);
+
+  const resetForm = () => {
     setPreview({
       title: '',
       subtitle: '',
       description: '',
-      font_family: 'sans-serif',
-      text_color: '#ffffff',
-      card_bg_color: '#18181b',
       image_url: '',
       image: null,
+      ...DEFAULT_STYLE,
     });
     setImagePreviewUrl('');
-  }
-    }, [selected]);
-
-    // ✅ Add this to make URL input trigger live preview
-    useEffect(() => {
-    if (preview.image_url && !preview.image) {
-        setImagePreviewUrl(preview.image_url);
-    }
-    }, [preview.image_url]);
-
+  };
 
   const handleChange = (e) => {
-    setPreview({ ...preview, [e.target.name]: e.target.value });
-    if (e.target.name === 'image_url') {
-      setImagePreviewUrl(e.target.value);
+    const { name, value } = e.target;
+    setPreview((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'image_url') {
+      setImagePreviewUrl(value);
       setPreview((prev) => ({ ...prev, image: null }));
     }
   };
@@ -85,19 +100,12 @@ export default function FeatureForm({
       }
 
       onSave();
-      setPreview({
-        title: '',
-        subtitle: '',
-        description: '',
-        font_family: 'sans-serif',
-        text_color: '#ffffff',
-        card_bg_color: '#18181b',
-        image_url: '',
-        image: null,
-      });
-      setImagePreviewUrl('');
     } catch (err) {
-      console.error('Error submitting form:', err.response?.data || err);
+      if (err.response?.data?.errors) {
+        console.error('Validation errors:', err.response.data.errors);
+      } else {
+        console.error('Error submitting form:', err.response?.data || err);
+      }
     }
   };
 
@@ -106,11 +114,13 @@ export default function FeatureForm({
       onSubmit={handleSubmit}
       className="bg-zinc-900 p-6 rounded-xl border border-white/10 shadow space-y-5 text-white"
     >
-      <h2 className="text-lg font-bold">{selected ? 'Edit Feature' : 'Create Feature'}</h2>
+      <h2 className="text-lg font-bold">
+        {selected ? 'Edit Feature' : 'Create Feature'}
+      </h2>
 
       <input
         name="title"
-        placeholder="Title (for internal use)"
+        placeholder="Title"
         value={preview.title}
         onChange={handleChange}
         className="w-full bg-zinc-800 px-4 py-2 rounded border border-zinc-700 placeholder:text-white/30"
@@ -136,43 +146,47 @@ export default function FeatureForm({
         required
       />
 
-      {!preview.image && (
-        <input
-          name="image_url"
-          placeholder="Image URL (optional)"
-          value={preview.image_url || ''}
-          onChange={handleChange}
-          className="w-full bg-zinc-800 px-4 py-2 rounded border border-zinc-700 placeholder:text-white/30"
-        />
-      )}
+      <input
+        name="image_url"
+        placeholder="Image URL (optional)"
+        value={preview.image_url || ''}
+        onChange={handleChange}
+        className="w-full bg-zinc-800 px-4 py-2 rounded border border-zinc-700 placeholder:text-white/30"
+      />
 
-      {!preview.image_url && (
-        <div>
-          <label className="block mb-1 text-sm text-white/60">Upload Image</label>
-          <label className="relative w-full cursor-pointer flex items-center justify-center bg-zinc-800 text-white border border-zinc-700 rounded-md py-3 px-4 hover:border-teal-500 transition duration-300">
-            <input
-              type="file"
-              accept="image/*"
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setPreview({ ...preview, image: file });
-                  const tempUrl = URL.createObjectURL(file);
-                  setImagePreviewUrl(tempUrl);
-                }
-              }}
-            />
-            <span className="pointer-events-none">
-              📁 {preview.image?.name || 'Choose an image file'}
-            </span>
-          </label>
-        </div>
-      )}
+      {/* File Upload */}
+      <div>
+        <label className="block mb-1 text-sm text-white/60">Upload Image</label>
+        <label className="relative w-full cursor-pointer flex items-center justify-center bg-zinc-800 text-white border border-zinc-700 rounded-md py-3 px-4 hover:border-teal-500 transition duration-300">
+          <input
+            type="file"
+            accept="image/*"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setPreview((prev) => ({
+                  ...prev,
+                  image: file,
+                  image_url: '',
+                }));
+              }
+            }}
+          />
+          <span className="pointer-events-none">
+            📁 {preview.image?.name || 'Choose an image file'}
+          </span>
+        </label>
+      </div>
 
+      {/* Image Preview */}
       {imagePreviewUrl && (
         <div className="flex items-center gap-4 mt-2">
-          <img src={imagePreviewUrl} alt="Preview" className="w-16 h-16 object-cover rounded" />
+          <img
+            src={imagePreviewUrl}
+            alt="Preview"
+            className="w-16 h-16 object-cover rounded"
+          />
           <div className="text-sm text-white/60">
             <div className="font-mono text-white truncate max-w-xs">
               {preview.image?.name || 'From URL'}
@@ -196,16 +210,20 @@ export default function FeatureForm({
         </div>
       )}
 
+      {/* Custom Styling Controls */}
       <CustomColorPicker
         label="Card Background"
         value={preview.card_bg_color}
-        onChange={(color) => setPreview({ ...preview, card_bg_color: color })}
+        onChange={(color) =>
+          setPreview((prev) => ({ ...prev, card_bg_color: color }))
+        }
       />
-
       <CustomColorPicker
         label="Text Color"
         value={preview.text_color}
-        onChange={(color) => setPreview({ ...preview, text_color: color })}
+        onChange={(color) =>
+          setPreview((prev) => ({ ...prev, text_color: color }))
+        }
       />
 
       <div>
@@ -214,7 +232,7 @@ export default function FeatureForm({
           name="font_family"
           value={preview.font_family}
           onChange={handleChange}
-          className="w-full bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00f7ff] text-white"
+          className="w-full bg-zinc-800 border border-zinc-700 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-green text-white"
         >
           {fontOptions.map((font) => (
             <option key={font} value={font} style={{ fontFamily: font }}>
