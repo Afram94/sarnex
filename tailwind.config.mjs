@@ -23,6 +23,11 @@ export default {
         blob1: 'blob1 18s ease-in-out infinite',
         blob2: 'blob2 28s ease-in-out infinite',
         blob3: 'blob3 22s ease-in-out infinite',
+
+        // 👇 NEW ANIMATIONS ADDED HERE
+        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+        'typewriter': 'typing 3s steps(40, end), blink 0.8s step-end infinite',
       },
       keyframes: {
         dash: {
@@ -32,11 +37,6 @@ export default {
           '0%, 100%': { backgroundPosition: '20% 30%' },
           '50%': { backgroundPosition: '80% 70%' },
         },
-        /* wave: {
-          '0%': { transform: 'translate(-50%, -10%)' },
-          '50%': { transform: 'translate(-50%, 10%)' },
-          '100%': { transform: 'translate(-50%, -10%)' },
-        }, */
         blob1: {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '50%': { transform: 'translate(30px, -50px) scale(1.1)' },
@@ -48,6 +48,24 @@ export default {
         blob3: {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '50%': { transform: 'translate(20px, 30px) scale(1.15)' },
+        },
+
+        // 👇 NEW KEYFRAMES ADDED HERE
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        fadeInUp: {
+          '0%': { opacity: 0, transform: 'translateY(10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        typing: {
+          from: { width: '0%' },
+          to: { width: '100%' },
+        },
+        blink: {
+          '0%, 100%': { borderColor: 'transparent' },
+          '50%': { borderColor: 'black' },
         },
       },
     },

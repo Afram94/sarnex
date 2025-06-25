@@ -15,24 +15,25 @@ const plans = [
       'SEO setup & analytics',
       'Hosting included first month',
     ],
-    price: '20000',
+    price: '15000',
     billing: 'Paid once',
+    extra: 'Monthly hosting & support: 300 kr (starts month 2)',
   },
   {
     title: '12-Month Plan',
     description:
       'Split the cost over 1 year. Best for faster pay-off while keeping budget manageable.',
     features: ['Same features as full project', 'Pay monthly for 12 months'],
-    price: '1800',
-    billing: 'Monthly + 250–350 kr for hosting & support (starts month 2)',
+    price: '1250',
+    billing: 'Monthly + 300 kr for hosting & support (starts month 2)',
   },
   {
     title: '24-Month Plan',
     description:
       'Lower monthly payment over 2 years. Ideal for early-stage businesses.',
     features: ['Same features as full project', 'Pay monthly for 24 months'],
-    price: '950',
-    billing: 'Monthly + 250–350 kr for hosting & support (starts month 2)',
+    price: '625',
+    billing: 'Monthly + 300 kr for hosting & support (starts month 2)',
   },
 ];
 
@@ -94,24 +95,37 @@ export default function PricingClient() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-hunter border border-beige/20 rounded-2xl p-8 shadow-xl text-left hover:shadow-2xl transition-colors duration-300 ease-in-out"
+                className="bg-hunter border border-beige/20 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-transform duration-300 ease-in-out transform hover:scale-[1.02] text-left flex flex-col justify-between"
               >
-                <h3 className="text-2xl font-semibold text-brand-green mb-3">
-                  {plan.title}
-                </h3>
-                <p className="text-beige/80 mb-6 leading-relaxed">
-                  {plan.description}
-                </p>
+                <div>
+                  <h3 className="text-2xl font-bold text-brand-green mb-2">{plan.title}</h3>
+                  <p className="text-beige/80 mb-5 leading-relaxed text-sm">{plan.description}</p>
+                </div>
+
                 <ul className="text-beige/70 space-y-2 text-sm mb-6">
                   {plan.features.map((f, i) => (
-                    <li key={i}>• {f}</li>
+                    <li key={i} className="flex items-center gap-2">
+                      <span className="text-brand-green text-base">✓</span> {f}
+                    </li>
                   ))}
                 </ul>
-                <p className="text-beige text-lg font-bold">{plan.price}</p>
-                <p className="text-sm text-beige/60">{plan.billing}</p>
+
+                <div className="mt-auto">
+                  <p className="text-3xl font-extrabold text-beige mb-1">
+                    {parseInt(plan.price).toLocaleString('sv-SE')} kr
+                  </p>
+                  <p className="text-sm text-beige/60">{plan.billing}</p>
+                  {plan.extra && (
+                    <p className="text-sm text-beige/50 mt-1">{plan.extra}</p>
+                  )}
+                </div>
               </motion.article>
             ))}
           </div>
+
+          <p className="text-center text-sm text-beige/50 mt-10">
+            * All plans include monthly hosting & support after the first month: 300 kr/month
+          </p>
         </section>
 
         <section className="bg-beige text-hunter py-16 px-6 md:px-20 text-center">
@@ -119,7 +133,7 @@ export default function PricingClient() {
           <p className="max-w-xl mx-auto text-lg text-army">
             After the project is delivered, hosting & ongoing support is billed separately. This keeps your site running, secure, and updated.
           </p>
-          <p className="mt-4 text-xl font-semibold text-hunter">From 250 kr/month</p>
+          <p className="mt-4 text-xl font-semibold text-hunter">From 300 kr/month</p>
         </section>
 
         <section className="bg-hunter text-beige py-16 px-6 md:px-20 text-center">
@@ -134,10 +148,10 @@ export default function PricingClient() {
         <section className="bg-army text-beige py-16 px-6 md:px-20 text-center border-b">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ongoing SEO Service</h2>
           <p className="max-w-xl mx-auto text-lg text-beige/80">
-            Monthly SEO monitoring and optimization services to keep your site performing and ranking better over time.
+            If you want to stay visible on Google as trends change, we can review and update your SEO each month.
+            This ensures your site always ranks for the right keywords, especially during seasons or promotions.
           </p>
           <p className="mt-4 text-xl font-semibold text-brand-green">500–1,000 kr/month</p>
-          <p className="text-sm text-beige/60 mt-2">*This service will be available soon.</p>
         </section>
       </main>
     </MainLayout>

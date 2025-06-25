@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import { useState, useEffect } from 'react';
 import api from '../../lib/axios';
@@ -9,7 +9,7 @@ export default function useFeatures() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // ✅ prevent setting state on unmounted component
+    let isMounted = true;
 
     const fetch = async () => {
       try {
@@ -37,3 +37,4 @@ export default function useFeatures() {
 
   return { features, loading, error };
 }
+ */

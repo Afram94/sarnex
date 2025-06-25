@@ -1,24 +1,24 @@
 import { notFound } from 'next/navigation';
-import api from '../../../../lib/axios'; // your axios instance with auth token
-import VisualAdminPanelPage from '../../components/features/pages/VisualAdminPanelPage';
-import GlobalStylingSystemPage from '../../components/features/pages/GlobalStylingSystemPage';
+import api from '../../../../lib/axios';
+import EasyContentManagementPage from '../../components/features/pages/EasyContentManagementPage';
+import CustomizableDesignSystemPage from '../../components/features/pages/CustomizableDesignSystemPage';
+import GenericFeaturePage from '../../components/features/pages/GenericFeaturePage'; // ✅ NEW
 
-// Mark route as dynamic (for params slug support)
 export const dynamic = 'force-dynamic';
 
-// Fetch feature data using axios
 async function getFeature(slug) {
+  console.log('[FeaturePage] calling slug:', slug);
   try {
     const res = await api.get(`/features/slug/${slug}`);
     return res.data;
   } catch (err) {
+    console.error('Feature fetch error:', err?.response?.status, err?.message);
     return null;
   }
 }
 
-// Metadata for SEO
 export async function generateMetadata({ params }) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = params;
   const feature = await getFeature(slug);
 
   if (!feature) {
@@ -40,19 +40,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Feature page rendering
 export default async function FeaturePage({ params }) {
-  const { slug } = await Promise.resolve(params);
+  const { slug } = params;
   const feature = await getFeature(slug);
 
   if (!feature) return notFound();
 
   switch (slug) {
-    case 'visual-admin-panel':
-      return <VisualAdminPanelPage feature={feature} />;
-    case 'global-styling-system':
-      return <GlobalStylingSystemPage feature={feature} />;
+    case 'easy-content-management':
+      return <EasyContentManagementPage feature={feature} />;
+    case 'customizable-design-system':
+      return <CustomizableDesignSystemPage feature={feature} />;
     default:
-      return notFound();
+      return <GenericFeaturePage feature={feature} />; // ✅ FIXED
   }
 }

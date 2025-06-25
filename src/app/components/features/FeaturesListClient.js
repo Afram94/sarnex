@@ -1,6 +1,6 @@
-'use client';
+/* 'use client';
 
-import useFeatures from '../../../hooks/useFeatures'; // adjust if your folder is different
+import useFeatures from '../../../hooks/useFeatures';
 import FeaturesGrid from './FeaturesGrid';
 
 export default function FeaturesListClient() {
@@ -11,10 +11,10 @@ export default function FeaturesListClient() {
 
   return <FeaturesGrid features={features} />;
 }
+ */
 
 
-
-/* 'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import FeaturesGrid from './FeaturesGrid';
@@ -31,4 +31,3 @@ export default function FeaturesListClient() {
 
   return <FeaturesGrid features={features} />;
 }
- */

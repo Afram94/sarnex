@@ -4,23 +4,23 @@ import MainLayout from '../../MainLayout';
 import { motion } from 'framer-motion';
 
 const feature = {
-  title: "Global Styling System",
-  description: "Manage typography, colors, spacing and more with clarity and control.",
+  title: "Easy Content Management",
+  description: "Edit text, images, and data easily through a custom admin panel. Manage existing sections with full CRUD support.",
   highlights: [
     {
-      title: "Centralized Control",
-      description: "Apply typography, spacing, and color rules across your entire site from one place.",
+      title: "No Coding Required",
+      description: "Easily update content and media without touching a single line of code.",
       image: "/DIGITAL.png"
     },
     {
-      title: "Instant Preview",
-      description: "See live changes as you tweak your design system. No guesswork — just instant feedback.",
+      title: "Full CRUD Support",
+      description: "Create, update, and delete content with a simple and intuitive admin interface.",
       image: "/DIGITAL.png"
     }
   ]
 };
 
-export default function GlobalStylingSystemPage() {
+export default function EasyContentManagementPage() {
   return (
     <MainLayout>
       <section className="relative min-h-screen py-40 px-6 overflow-hidden bg-gradient-to-br from-hunter via-army to-[#1f3529] text-beige">
@@ -50,7 +50,7 @@ export default function GlobalStylingSystemPage() {
           </motion.p>
         </div>
 
-        {/* Bigger Highlights Section */}
+        {/* Highlights Section */}
         <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-16 max-w-6xl mx-auto z-10 relative">
           {feature.highlights?.map((highlight, index) => (
             <div
