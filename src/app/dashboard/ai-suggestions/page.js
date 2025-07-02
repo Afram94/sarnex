@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function AiSuggestionsPage() {
   const [suggestions, setSuggestions] = useState([]);
@@ -9,14 +10,13 @@ export default function AiSuggestionsPage() {
   const fetchSuggestions = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai-suggestions`, {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/ai-suggestions`, {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer YOUR_SANCTUM_TOKEN_HERE`,
         },
       });
-      const data = await res.json();
-      setSuggestions(data.suggestions || []);
+      setSuggestions(res.data.suggestions || []);
     } catch (error) {
       console.error('Failed to fetch suggestions:', error);
     }
@@ -24,38 +24,29 @@ export default function AiSuggestionsPage() {
   };
 
   const handleAction = async (id, action, pageType) => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai-suggestions/${id}/${action}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer YOUR_SANCTUM_TOKEN_HERE`,
-      },
-    });
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/ai-suggestions/${id}/${action}`, null, {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer YOUR_SANCTUM_TOKEN_HERE`,
+        },
+      });
 
-    if (action === 'apply') {
       setSuggestions((prev) =>
         prev.map((s) => {
-          if (s.page_type === pageType) {
-            return {
-              ...s,
-              status: s.id === id ? 'applied' : 'ignored',
-            };
+          if (action === 'apply' || action === 'accept') {
+            return s.page_type === pageType
+              ? { ...s, status: s.id === id ? 'applied' : 'ignored' }
+              : s;
+          }
+          if (action === 'reject' && s.id === id) {
+            return { ...s, status: 'ignored' };
           }
           return s;
         })
       );
-    } else if (action === 'reject') {
-      setSuggestions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, status: 'ignored' } : s))
-      );
-    } else if (action === 'accept') {
-      setSuggestions((prev) =>
-        prev.map((s) =>
-          s.page_type === pageType
-            ? { ...s, status: s.id === id ? 'applied' : 'ignored' }
-            : s
-        )
-      );
+    } catch (error) {
+      console.error(`Failed to ${action} suggestion:`, error);
     }
   };
 
