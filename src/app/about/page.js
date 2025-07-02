@@ -10,8 +10,11 @@ export default function AboutPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+    const endpoint = `${API_BASE}/about`;
+
     axios
-      .get('http://localhost:8000/api/v1/pages/about', {
+      .get(endpoint, {
         headers: {
           Accept: 'application/json',
         },
@@ -33,6 +36,7 @@ export default function AboutPage() {
       })
       .finally(() => setLoading(false));
   }, []);
+
 
   if (loading || !content) {
     return <p className="text-beige p-10">Loading...</p>;

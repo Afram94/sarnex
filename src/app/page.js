@@ -10,6 +10,7 @@ import FeaturedWork from './components/FeaturedWork'
 import CallToActionRoadmap from './components/CallToActionRoadmap'
 import AnimatedWordsSwap from './components/AnimatedWordsSwap'
 import FeaturesListClient from './components/features/FeaturesListClient';
+import AIWritingAssistant from './components/sections/AIWritingAssistantMini';
 
 const messages = [
   'Websites that rank. And convert.',
@@ -139,6 +140,7 @@ export default function HomePage() {
         </section>
 
         <div className="scroll-section"><RealProblemsFixed /></div>
+        <div className="scroll-section"><AIWritingAssistant /></div>
         <div className="scroll-section"><FeaturesListClient /></div>
         <div className="scroll-section"><AnimatedProcessScroll /></div>
         <div className="scroll-section"><FeaturedWork /></div>

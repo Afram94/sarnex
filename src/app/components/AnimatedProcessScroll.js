@@ -41,7 +41,6 @@ export default function AnimatedProcessScroll() {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
 
-  // Auto-play logic
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % steps.length);
@@ -50,7 +49,6 @@ export default function AnimatedProcessScroll() {
     return () => clearInterval(interval);
   }, []);
 
-  // Smooth scroll to center
   useEffect(() => {
     const container = containerRef.current;
     const activeCard = container?.children[activeIndex];
@@ -70,9 +68,12 @@ export default function AnimatedProcessScroll() {
   }, [activeIndex]);
 
   return (
-    <section id="process" className="relative z-10 pt-32 pb-24 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 animated-gradient z-0" />
+    <section
+      id="process"
+      className="relative z-10 pt-32 pb-24 overflow-hidden bg-gradient-to-b from-hunter via-army to-hunter"
+    >
+      {/* Optional radial glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-green/10 rounded-full blur-3xl opacity-30 pointer-events-none z-0" />
 
       {/* Content wrapper */}
       <div className="relative z-10 max-w-7xl mx-auto px-4">
@@ -80,7 +81,7 @@ export default function AnimatedProcessScroll() {
           Our Process
         </h2>
 
-        {/* Horizontal scrollable steps */}
+        {/* Scrollable steps */}
         <div
           ref={containerRef}
           className="flex overflow-x-auto gap-6 px-2 sm:px-0 hide-scrollbar snap-x snap-mandatory scroll-smooth"
@@ -92,11 +93,12 @@ export default function AnimatedProcessScroll() {
             return (
               <motion.div
                 key={index}
-                className={`snap-center shrink-0 transition-all duration-500 ease-in-out rounded-2xl p-6 sm:p-8 border border-white/10 backdrop-blur-md bg-white/10 shadow-lg w-[260px] sm:w-[300px] flex flex-col text-center ${
+                whileHover={{ scale: 1.05 }}
+                className={`snap-center shrink-0 transition-all duration-500 ease-in-out rounded-2xl p-6 sm:p-8 border backdrop-blur-sm w-[260px] sm:w-[300px] flex flex-col text-center ${
                   isActive
                     ? 'scale-100 opacity-100 z-10'
                     : 'scale-95 opacity-60 z-0'
-                }`}
+                } bg-hunter/80 border-brand-green/20 shadow-xl`}
               >
                 <div className="mb-4 flex justify-center">
                   <Icon className="w-8 h-8 text-brand-green" />
@@ -104,10 +106,10 @@ export default function AnimatedProcessScroll() {
                 <p className="text-brand-green text-sm uppercase tracking-widest mb-1">
                   {step.title}
                 </p>
-                <h3 className="text-lg font-semibold text-white mb-2">
+                <h3 className="text-lg font-semibold text-beige mb-2">
                   {step.heading}
                 </h3>
-                <p className="text-white/70 text-sm">{step.description}</p>
+                <p className="text-beige/70 text-sm">{step.description}</p>
               </motion.div>
             );
           })}
@@ -119,7 +121,9 @@ export default function AnimatedProcessScroll() {
             <span
               key={i}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                i === activeIndex ? 'bg-brand-green scale-125' : 'bg-white/20'
+                i === activeIndex
+                  ? 'bg-brand-green scale-125'
+                  : 'bg-army/30'
               }`}
             />
           ))}
