@@ -71,14 +71,23 @@ export default function DashboardPage() {
             disabled={loading}
             className="inline-flex items-center gap-1 text-indigo-600 dark:text-indigo-400 hover:underline disabled:opacity-50"
           >
-            <RotateCcw size={16} className={loading ? 'animate-spin' : ''} /> Refresh
+            <RotateCcw size={16} className={`transition-transform ${loading ? 'animate-spin' : ''}`} />
+            {loading ? 'Refreshing...' : 'Refresh'}
           </button>
         </div>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-        {summary && (
+        {loading || !summary ? (
+          [...Array(5)].map((_, i) => (
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 animate-pulse space-y-2">
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+              <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>
+              <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+            </div>
+          ))
+        ) : (
           <>
             <SummaryCard label="Sessions" value={summary.sessions} description="User visits. 1 person browsing counts as 1 session." />
             <SummaryCard label="Page Views" value={summary.pageViews} description="Number of page loads including refreshes." />
@@ -94,7 +103,9 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 md:p-6">
           <h2 className="text-lg font-semibold mb-2">Active Users Trend</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Users visiting per day for the past 7 days.</p>
-          {trend.length > 0 && (
+          {loading || trend.length === 0 ? (
+            <div className="h-[300px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          ) : (
             <ApexChart
               type="line"
               height={300}
@@ -103,11 +114,7 @@ export default function DashboardPage() {
                 chart: { background: 'transparent' },
                 xaxis: {
                   categories: trend.map(t => formatDate(t.date)),
-                  labels: {
-                    style: {
-                      colors: theme === 'dark' ? '#d1d5db' : '#374151',
-                    },
-                  },
+                  labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } },
                   axisBorder: { show: false },
                   axisTicks: { show: false },
                 },
@@ -124,7 +131,9 @@ export default function DashboardPage() {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 md:p-6">
           <h2 className="text-lg font-semibold mb-2">Active Users by Country (Realtime)</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Realtime active users split by country.</p>
-          {countries.length > 0 && (
+          {loading || countries.length === 0 ? (
+            <div className="h-[300px] bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          ) : (
             <ApexChart
               type="bar"
               height={300}
@@ -133,7 +142,7 @@ export default function DashboardPage() {
                 chart: { background: 'transparent' },
                 xaxis: {
                   categories: countries.map(c => c.country),
-                  labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } }
+                  labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } },
                 },
                 yaxis: { labels: { style: { colors: theme === 'dark' ? '#d1d5db' : '#374151' } } },
                 tooltip: { theme },
@@ -159,18 +168,29 @@ export default function DashboardPage() {
             </tr>
           </thead>
           <tbody>
-            {topPages.map((page, i) => (
-              <tr key={i} className="border-b last:border-0 border-gray-200 dark:border-gray-700">
-                <td className="py-2 text-indigo-700 dark:text-indigo-300">{page.path}</td>
-                <td className="py-2">{page.views.toLocaleString()}</td>
-                <td className="py-2">{(Math.random() * 10 + 5).toFixed(1)}%</td>
-                <td className="py-2">
-                  <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-1 rounded">
-                    Organic
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {loading || topPages.length === 0 ? (
+              [...Array(5)].map((_, i) => (
+                <tr key={i} className="border-b border-gray-200 dark:border-gray-700 animate-pulse">
+                  <td className="py-3"><div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-3/4" /></td>
+                  <td><div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-2/3" /></td>
+                  <td><div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3" /></td>
+                  <td><div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2 inline-block" /></td>
+                </tr>
+              ))
+            ) : (
+              topPages.map((page, i) => (
+                <tr key={i} className="border-b last:border-0 border-gray-200 dark:border-gray-700">
+                  <td className="py-2 text-indigo-700 dark:text-indigo-300">{page.path}</td>
+                  <td className="py-2">{page.views.toLocaleString()}</td>
+                  <td className="py-2">{(Math.random() * 10 + 5).toFixed(1)}%</td>
+                  <td className="py-2">
+                    <span className="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-1 rounded">
+                      Organic
+                    </span>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
